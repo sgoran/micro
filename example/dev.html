@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+    <script src="../index.js"></script>
+    <script src="../Pubsub.js"></script>
+    <script src="../Router.js"></script>
+    <script src="../Tpl.js"></script>
+    
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+</head>
+<body>
+    
+    <ul>
+        <li><a href="/" hub-link>home</a></li>
+        <li><a href="/game" hub-link>link 2</a></li>
+        <li><a href="/game/Fruits" hub-link>link 3</a></li>
+    </ul>
+    <img src="download.jpeg" alt="slika" />
+
+    <div id="container" style="border: 1px solid black; width: 700px; height: 400px;">
+
+
+    </div>
+
+
+    <script type="text/javascript">
+
+        new Micro({
+                routes: [{
+                    rule: '/',
+                    tpl: "mu.html",
+                    data: {
+                        stagod: 2343423
+                    },
+                    afterrender: function(){
+                        console.log(1)
+                    }
+                },{
+                    rule: '/game',
+                    tpl: "test.html",
+                    data: {
+                        stagod: 'stagod !!!!!!!!!!!!!!!'
+                    },
+                    afterrender: function(){
+                        console.log(2)
+                    }
+                },{
+                    rule: '/game/:gameName',
+                    tpl: "game.html"
+                }],
+                options:{
+                    tplDir: '/tpl',
+                    cache: true,
+                    container: 'container'
+                } 
+            });
+
+
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+{
+  "name": "micro",
+  "version": "1.0.0",
+  "description": "Client side micro router and tpl loader/parser",
+  "main": "index.js",
+  "devDependencies": {
+    "express": "^4.14.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-uglify": "^2.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "build": "gulp"
+  },
+  "config": {
+    "dev": "index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sgoran/micro.git"
+  },
+  "keywords": [
+    "client",
+    "side",
+    "router",
+    "tpl",
+    "engine"
+  ],
+  "author": "goran smiljanic",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sgoran/micro/issues"
+  },
+  "homepage": "https://github.com/sgoran/micro#readme"
+}
