@@ -25,6 +25,8 @@
                 rendered: function(){
                     setTimeout(function(){
                         me.setListeners();
+                        document.getElementById("container").className = "animated fadeIn";
+                        //document.getElementById("container").className = "animated fadeIn";
                     }, 0);
                 } 
             }

@@ -2,7 +2,7 @@
   "name": "micro",
   "version": "1.0.0",
   "description": "Client side micro router and tpl loader/parser",
-  "main": "index.js",
+  "main": "build/micro.min.js",
   "devDependencies": {
     "express": "^4.14.0",
     "gulp": "^3.9.1",

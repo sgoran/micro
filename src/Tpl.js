@@ -85,6 +85,8 @@
             var data = (me.activePage.data || me.props.data || {}),
                 source = this.parseTpl(html, data),
                 container = document.getElementById(this.props.container);
+            
+            document.getElementById("container").className = "animated fadeOut";
 
             this.replaceHtml(container, source); 
 
