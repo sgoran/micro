@@ -18,7 +18,7 @@ Micro client side router and template loading/mustache library.
     $ git clone https://github.com/sgoran/micro.git
     $ cd micro
     $ npm install
-    $ node start
+    $ npm start
     $ open http://localhost:8080
 
 ## API
