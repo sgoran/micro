@@ -10,62 +10,55 @@
     <script src="../Router.js"></script>
     <script src="../Tpl.js"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
     <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
 
     <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
-    </style>
+    
 </head>
 <body>
-    <!-- The drawer is always open in large screens. The header is always shown,
-  even in small screens. -->
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer
-            mdl-layout--fixed-header">
-  <header class="mdl-layout__header">
-    <div class="mdl-layout__header-row">
-      <div class="mdl-layout-spacer"></div>
-      <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
-                  mdl-textfield--floating-label mdl-textfield--align-right">
-        <label class="mdl-button mdl-js-button mdl-button--icon"
-               for="fixed-header-drawer-exp">
-          <i class="material-icons">search</i>
-        </label>
-        <div class="mdl-textfield__expandable-holder">
-          <input class="mdl-textfield__input" type="text" name="sample"
-                 id="fixed-header-drawer-exp">
-        </div>
-      </div>
-    </div>
-  </header>
-  <div class="mdl-layout__drawer">
-    <span class="mdl-layout-title">Examples</span>
-    <nav class="mdl-navigation">
-      <a class="mdl-navigation__link" href="/" hub-link>Link 1</a>
-      <a class="mdl-navigation__link" href="/game" hub-link>Link 2</a>
-      <a class="mdl-navigation__link" href="/game/Fruits" hub-link>Link 3</a>
-      <a class="mdl-navigation__link" href="">Link</a>
-    </nav>
-  </div>
-  <main class="mdl-layout__content">
-    <div class="page-content"><!-- Your content goes here -->
-    
-    <div id="container" class="animated slideInLeft" style=""></div>
-    
-    </div>
-  </main>
-</div>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
 
-    
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+            <div class="mdl-layout-spacer"></div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right">
+                <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
+                    <i class="material-icons">search</i>
+                </label>
+                <div class="mdl-textfield__expandable-holder">
+                    <input class="mdl-textfield__input" type="text" name="sample" id="fixed-header-drawer-exp">
+                </div>
+            </div>
+            </div>
+        </header>
+
+        <div class="mdl-layout__drawer">
+            <span class="mdl-layout-title">Examples</span>
+            <nav class="mdl-navigation">
+                <a class="mdl-navigation__link" href="/" hub-link>Link 1</a>
+                <a class="mdl-navigation__link" href="/two" hub-link>Link 2</a>
+                <a class="mdl-navigation__link" href="/three/param1" hub-link>Link 3</a>
+            </nav>
+        </div>
+
+        <main class="mdl-layout__content">
+
+            <div id="container" class="page-content animated slideInLeft" style="padding: 15px;">
+                <!-- Your content goes here -->
+            </div>
+
+        </main>
+
+    </div>
 
     <script type="text/javascript">
-
         new Micro({
                 routes: [{
                     rule: '/',
-                    tpl: "mu.html",
+                    tpl: "one.html",
+                    cache: true,
                     data: {
                         stagod: 2343423
                     },
@@ -73,32 +66,28 @@
                         console.log(1)
                     }
                 },{
-                    rule: '/game',
-                    tpl: "test.html",
+                    rule: '/two',
+                    tpl: "two.html",
                     data: {
-                        stagod: 'stagod !!!!!!!!!!!!!!!'
+                        stagod: 'Embeded'
                     },
                     afterrender: function(){
                         console.log(2)
                     }
                 },{
-                    rule: '/game/:gameName',
-                    tpl: "game.html"
+                    rule: '/three/:param',
+                    tpl: "three.html"
                 }],
                 options:{
-                    // enterAnimation:"",
-                    // exitAnimation: "",
-                    // loader: true,
-                    // 
+                    enterAnimation: "fadeIn",
+                    loader: true,
                     tplDir: '/tpl',
-                    cache: true,
-                    container: 'container'
+                    //cache: true,
+                    container: 'container',
+                    
                 } 
             });
-
-
     </script>
-
 
 </body>
 </html>

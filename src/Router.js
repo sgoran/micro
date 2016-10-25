@@ -42,8 +42,10 @@
 
         /**
          * Check if page object match
+         * @to-do: This must be done much better
          */
         doesMatch: function(page){
+
             var urlPath = window.location.pathname;
             var match = false;
 
