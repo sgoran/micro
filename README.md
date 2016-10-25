@@ -8,5 +8,4 @@ Install packages
 Start server
 ``` npm start ```
 
-Go to URL
-``` http://localhost:8080 ```
+Open http://localhost:8080 in your browser
