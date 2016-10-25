@@ -56,6 +56,6 @@ Micro client side router and template loading/mustache library.
             container: 'containerId',
 
         } 
-    });```
+    });
     
     
