@@ -23,7 +23,8 @@ Micro client side router and template loading/mustache library.
 
 ## API
 
-```new Micro({
+```javascript
+  new Micro({
         routes: [{
             rule: '/',
             tpl: "one.html",
