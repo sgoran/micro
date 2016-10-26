@@ -18,7 +18,7 @@
 
         me.setListeners();
 
-        me.events.subscribe('routechange', function(page){
+        me.events.on('routechange', function(page){
 
             me.tpl.loadTpl(page);
             me.tpl.props.listeners = { 
@@ -46,13 +46,13 @@
             var t = e.target;
 
             if (t.tagName == 'A'){
-             
-                e.preventDefault();
+                console.log(1)
+                //e.preventDefault();
 
-                if(t.hasAttribute('href'))
-                    me.router.path(t.getAttribute('href'))
+                if(t.hasAttribute('micro-route'))
+                    me.router.path(t.getAttribute('micro-route'));
 
-                return;
+                //return false;
 
             }
             
@@ -60,11 +60,14 @@
 
         setListeners: function(){
            
-            Array.prototype.slice.call(document.querySelectorAll('[hub-link]')).forEach(function(el){
-                if (el.addEventListener)
+            Array.prototype.slice.call(document.querySelectorAll('[micro-route]')).forEach(function(el){
+                if (el.addEventListener){
                     el.addEventListener('click', me.aClick, false);
-                else
+                    
+                }
+                else{
                     el.attachEvent('onclick', me.aClick);
+                }
             });
 
         },

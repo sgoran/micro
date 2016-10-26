@@ -9,7 +9,7 @@
 
         me = this;
         me.props = props;
-        me.container = this.props.container;
+       // me.container = this.props.container;
         me.enterAnimation = me.props.enterAnimation;
 
         if(me.enterAnimation && me.enterAnimation!='')
@@ -27,10 +27,10 @@
          * Should be faster than innerHTML
          */
         replaceHtml: function(html) { 
-
-            var oldEl = typeof me.container === "string" ? document.getElementById(me.container) : me.container;
+console.log(me.props.container)
+            var oldEl = (typeof me.props.container === "string" ? document.getElementById(me.props.container) : me.props.container);
             var newEl = oldEl.cloneNode(false);
-            
+            //console.log(newEl, html)
             newEl.innerHTML = html;
             oldEl.parentNode.replaceChild(newEl, oldEl);
 
@@ -52,13 +52,12 @@
 
             
             tplFile = this.props.tplDir+'/'+page.tpl;
-            oReq = new XMLHttpRequest();
+            var oReq = new XMLHttpRequest();
 
             oReq.addEventListener("load", function(){
                 
                 if(me.props.cache || page.cache)
                     me.cacheRoute(page, oReq.responseText);
-
                 me.render(oReq.responseText);
             });
 
@@ -105,11 +104,11 @@
          * Main render function 
          */
         render: function(html){
-            
-            var data = (me.activePage.data || me.props.data || {}),
-                source = this.parseTpl(html, data);
+
+            var data = (me.activePage.data || me.props.data || {});
                 
-            
+            var source = this.parseTpl(html, data);
+                
             // leave animation
             //document.getElementById("container").className = "animated fadeOut";
             

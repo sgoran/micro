@@ -29,7 +29,7 @@
                         page.afterrender();
 
                     if(me.events)
-                        me.events.publish('routechange', page);
+                        me.events.fire('routechange', page);
 
                     //throw me.BreakException;
                 }
