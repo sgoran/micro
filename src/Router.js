@@ -4,11 +4,11 @@
 
     var me = this;
 
-    function Router(props){
+    function Router(props, events){
     
         me = this;
-        me.props = props,
-        events = (Micro && Micro['Pubsub']) ? Micro['Pubsub']: false;
+        me.props = props;
+        me.events = events;//= (Micro && Micro['Pubsub']) ? Micro['Pubsub']: false;
        
         me.BreakException = {};
 
@@ -28,8 +28,8 @@
                     if(page.afterrender && typeof page.afterrender === 'function')
                         page.afterrender();
 
-                    if(events)
-                        events.publish('routechange', page);
+                    if(me.events)
+                        me.events.publish('routechange', page);
 
                     //throw me.BreakException;
                 }

@@ -5,7 +5,7 @@
     
     var me = this;
     
-    function Tpl(props){
+    function Tpl(props, events){
 
         me = this;
         me.props = props;

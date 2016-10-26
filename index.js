@@ -6,11 +6,11 @@
     var me;
 
     function Micro(props){
-
+        
         me = this, me.props = props;
-        me.events = Micro.Pubsub;
-        me.router = new Micro.Router(me.props.routes);
-        me.tpl = new Micro.Tpl(me.props.options);
+        me.events =  new Micro.Pubsub();
+        me.router = new Micro.Router(me.props.routes, me.events);
+        me.tpl = new Micro.Tpl(me.props.options, me.events);
 
         me.urlPath = window.location.pathname;
 
@@ -34,7 +34,9 @@
         me.router.invoke();
         me.setListeners();
 
-    }
+        return me;
+
+    };
 
     Micro.prototype = {
        isMicro: true,

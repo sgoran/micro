@@ -1,10 +1,14 @@
 //https://davidwalsh.name/pubsub-javascript
 ;(function(){
 
-  var topics = {};
-  var hOP = topics.hasOwnProperty;
-  
-  var Pubsub = {
+  var topics, hOP;
+
+  function Pubsub(){
+    topics = {};
+    hOP = topics.hasOwnProperty;
+  };
+
+  Pubsub.prototype = {
     subscribe: function(topic, listener) {
       // Create the topic's object if not yet created
       if(!hOP.call(topics, topic)) 
