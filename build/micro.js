@@ -6,11 +6,11 @@
     var me;
 
     function Micro(props){
-
+        
         me = this, me.props = props;
-        me.events = Micro.Pubsub;
-        me.router = new Micro.Router(me.props.routes);
-        me.tpl = new Micro.Tpl(me.props.options);
+        me.events =  new Micro.Pubsub();
+        me.router = new Micro.Router(me.props.routes, me.events);
+        me.tpl = new Micro.Tpl(me.props.options, me.events);
 
         me.urlPath = window.location.pathname;
 
@@ -23,10 +23,8 @@
             me.tpl.loadTpl(page);
             me.tpl.props.listeners = { 
                 rendered: function(){
-                    setTimeout(function(){
-                        me.setListeners();
-                    }, 0);
-                } 
+                    me.setListeners();
+                }
             }
 
         });
@@ -36,7 +34,9 @@
         me.router.invoke();
         me.setListeners();
 
-    }
+        return me;
+
+    };
 
     Micro.prototype = {
        isMicro: true,
@@ -86,10 +86,14 @@
 //https://davidwalsh.name/pubsub-javascript
 ;(function(){
 
-  var topics = {};
-  var hOP = topics.hasOwnProperty;
-  
-  var Pubsub = {
+  var topics, hOP;
+
+  function Pubsub(){
+    topics = {};
+    hOP = topics.hasOwnProperty;
+  };
+
+  Pubsub.prototype = {
     subscribe: function(topic, listener) {
       // Create the topic's object if not yet created
       if(!hOP.call(topics, topic)) 
@@ -137,11 +141,11 @@
 
     var me = this;
 
-    function Router(props){
+    function Router(props, events){
     
         me = this;
-        me.props = props,
-        events = (Micro && Micro['Pubsub']) ? Micro['Pubsub']: false;
+        me.props = props;
+        me.events = events;//= (Micro && Micro['Pubsub']) ? Micro['Pubsub']: false;
        
         me.BreakException = {};
 
@@ -161,8 +165,8 @@
                     if(page.afterrender && typeof page.afterrender === 'function')
                         page.afterrender();
 
-                    if(events)
-                        events.publish('routechange', page);
+                    if(me.events)
+                        me.events.publish('routechange', page);
 
                     //throw me.BreakException;
                 }
@@ -175,8 +179,10 @@
 
         /**
          * Check if page object match
+         * @to-do: This must be done much better
          */
         doesMatch: function(page){
+
             var urlPath = window.location.pathname;
             var match = false;
 
@@ -246,32 +252,40 @@
     
     var me = this;
     
-    function Tpl(props){
+    function Tpl(props, events){
 
         me = this;
         me.props = props;
-        
+        me.container = this.props.container;
+        me.enterAnimation = me.props.enterAnimation;
 
+        if(me.enterAnimation && me.enterAnimation!='')
+            me.embedAnimations();
+        
     }
 
     Tpl.prototype = {
+        /**
+         * Holds template cache
+         */
         tplCache: {},
 
-        //http://blog.stevenlevithan.com/archives/faster-than-innerhtml
-        replaceHtml: function(el, html) {
-            var oldEl = typeof el === "string" ? document.getElementById(el) : el;
-            /*@cc_on // Pure innerHTML is slightly faster in IE
-                oldEl.innerHTML = html;
-                return oldEl;
-            @*/
+        /**
+         * Should be faster than innerHTML
+         */
+        replaceHtml: function(html) { 
+
+            var oldEl = typeof me.container === "string" ? document.getElementById(me.container) : me.container;
             var newEl = oldEl.cloneNode(false);
+            
             newEl.innerHTML = html;
             oldEl.parentNode.replaceChild(newEl, oldEl);
-            /* Since we just removed the old element from the DOM, return a reference
-            to the new element, which can be used to restore variable references. */
-            return newEl;
+
         },
 
+        /**
+         * Do XHR for template and call this.render
+         */
         loadTpl: function(page){
             
             var me = this; 
@@ -299,21 +313,34 @@
             oReq.send();
 
         },
+
+        /**
+         * Returns boolean
+         */
         isRouteCached: function(page){
             return this.tplCache && this.tplCache.hasOwnProperty(page.tpl);
         },
+
+        /**
+         * Cache tpl
+         */
         cacheRoute: function(page, data){
             this.tplCache[page.tpl] = data;
         },
         
-        //https://github.com/addyosmani/microtemplatez/blob/master/microtemplatez.js
-        parseTpl: function( tmpl, data ) {
+        /**
+         * Mustache replace
+         * Should work with nested data/objects like {{data.item}}
+         */
+        parseTpl: function(tpl, data) { 
 
-            return tmpl.replace((RegExp("{{\\s*([a-z0-9_][.a-z0-9_]*)\\s*}}", "gi")), function (tag, k) {
+            return tpl.replace((RegExp("{{\\s*([a-z0-9_][.a-z0-9_]*)\\s*}}", "gi")), function (tag, k) {
+
                 var p = k.split("."),
                     len = p.length,
                     temp = data,
                     i = 0;
+
                 for (; i < len; i++) 
                     temp = temp[p[i]] || '';
                 
@@ -321,24 +348,59 @@
             });
         },
         
+        /**
+         * Main render function 
+         */
         render: function(html){
             
             var data = (me.activePage.data || me.props.data || {}),
-                source = this.parseTpl(html, data),
-                container = document.getElementById(this.props.container);
+                source = this.parseTpl(html, data);
+                
+            
+            // leave animation
+            //document.getElementById("container").className = "animated fadeOut";
+            
+            this.replaceHtml(source); 
 
-            this.replaceHtml(container, source); 
 
-            if(me.props.listeners)
-                me.props.listeners.rendered();
+            if(me.props.listeners){
+                setTimeout(function(){
+                    if(typeof me.props.listeners.rendered === 'function')
+                        me.props.listeners.rendered();
+                }, 0);
+            }
+                
+
+            this._afterrender();    
 
         },
 
+        /**
+         * Executes after tpl is added
+         */
+        _afterrender: function(){
+            setTimeout(function(){
+                if(me.enterAnimation)
+                document.getElementById("container").className = "animated "+me.enterAnimation;
+            }, 0);
+        },
+
+        /**
+         * console.log
+         */
         log: function(msg){
-
             console.log(msg);
-
         },
+
+        /**
+         * 
+         */
+        embedAnimations: function(){
+            var link = document.createElement('link');
+            link.href = 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css';
+            link.rel="stylesheet";
+            document.head.appendChild(link);
+        }
 
     }; 
     
