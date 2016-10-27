@@ -5,7 +5,7 @@
     <title>Document</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <script src="../index.js"></script>
+    <script src="../Micro.js"></script>
     <script src="../Pubsub.js"></script>
     <script src="../Router.js"></script>
     <script src="../Tpl.js"></script>
@@ -37,49 +37,56 @@
         <div class="mdl-layout__drawer">
             <span class="mdl-layout-title">Examples</span>
             <nav class="mdl-navigation">
-                <a class="mdl-navigation__link" href="javascript:void(0)" micro-route="/">Link 1</a>
-                <a class="mdl-navigation__link" href="javascript:void(0)" micro-route="/two">Link 2</a>
-                <a class="mdl-navigation__link" href="javascript:void(0)" micro-route="/three/param1">Link 3</a>
+                <a class="mdl-navigation__link"  micro-route="/" >Link 1</a>
+                <a class="mdl-navigation__link"  micro-route="/two" >Link 2</a>
+                <a class="mdl-navigation__link"  micro-route="/three/param1" >Link 3</a>
             </nav>
         </div>
 
         <main class="mdl-layout__content">
 
-            <div id="container" class="page-content animated slideInLeft" style="padding: 15px;">
+                <div style="float: left; width: 600px;">
                 <!-- Your content goes here -->
-                <div id="c" style="height: 200px; border: 1px solid red;"></div>
-                <div id="c1" style="height: 200px; border: 1px solid blue;"></div>
-            </div>
+                    <div id="c" style="width: 500px; border: 2px solid red; height: 40vh; float: left;"></div>
+                    <div id="c1" style="width: 500px; border: 2px solid blue; height: 40vh; float: left;"></div>
+                </div>
+
+                <div style="float: right; width: 600px;">
+                    <div id="c2" style="width: 500px; border: 2px solid green; height: 40vh; float: right;"></div>
+                    <div id="c3" style="width: 500px; border: 2px solid black; height: 40vh; float: right;"></div>
+                </div>
+            
         </main>
 
     </div>
 
     <script type="text/javascript">
+    
         var micro = new Micro({
-                routes: [{
-                    rule: '/',
+                pages: [{
+                    match: '/',
                     tpl: "test.html",
                     data: {
-                        stagod: 2343423
+                        stagod: 'primjer'
                     },
                     afterrender: function(){
                         
                     }
                 },{
-                    rule: '/two',
+                    match: '/two',
                     tpl: "two.html",
                     data: {
-                        stagod: 'Embeded'
+                        stagod: 'primjer'
                     },
                     afterrender: function(){
                         
                     }
                 },{
-                    rule: '/three/:param',
+                    match: '/three/:param',
                     tpl: "three.html"
                 }],
                 options:{
-                    enterAnimation: "fadeIn",
+                    enterAnimation: "slideInDown",
                     loader: true,
                     tplDir: '/tpl',
                     //cache: true,
@@ -87,9 +94,10 @@
                     
                 } 
             });
+
             var micro2 = new Micro({
-                routes: [{
-                    rule: '/',
+                pages: [{
+                    match: '/',
                     tpl: "one.html",
                     data: {
                         stagod: 2343423
@@ -98,7 +106,7 @@
                         
                     }
                 },{
-                    rule: '/two',
+                    match: '/two',
                     tpl: "two.html",
                     data: {
                         stagod: 'Embeded'
@@ -107,15 +115,81 @@
                         
                     }
                 },{
-                    rule: '/three/:param',
+                    match: '/three/:param',
                     tpl: "three.html"
                 }],
                 options:{
-                    enterAnimation: "fadeIn",
+                    enterAnimation: "slideInLeft",
                     loader: true,
                     tplDir: '/tpl',
                     //cache: true,
                     container: 'c1',
+                    
+                } 
+            });
+
+            var micro2 = new Micro({
+                pages: [{
+                    match: '/',
+                    tpl: "one.html",
+                    data: {
+                        stagod: 2343423
+                    },
+                    afterrender: function(){
+                        
+                    }
+                },{
+                    match: '/two',
+                    tpl: "two.html",
+                    data: {
+                        stagod: 'Embeded'
+                    },
+                    afterrender: function(){
+                        
+                    }
+                },{
+                    match: '/three/:param',
+                    tpl: "three.html"
+                }],
+                options:{
+                    enterAnimation: "flipInY",
+                    loader: true,
+                    tplDir: '/tpl',
+                    //cache: true,
+                    container: 'c2',
+                    
+                } 
+            });
+
+            var micro2 = new Micro({
+                pages: [{
+                    match: '/',
+                    tpl: "one.html",
+                    data: {
+                        stagod: 2343423
+                    },
+                    afterrender: function(){
+                        
+                    }
+                },{
+                    match: '/two',
+                    tpl: "two.html",
+                    data: {
+                        stagod: 'Embeded'
+                    },
+                    afterrender: function(){
+                        
+                    }
+                },{
+                    match: '/three/:param',
+                    tpl: "three.html"
+                }],
+                options:{
+                    enterAnimation: "flipInX",
+                    loader: true,
+                    tplDir: '/tpl',
+                    //cache: true,
+                    container: 'c3',
                     
                 } 
             });

@@ -3,18 +3,20 @@
  */
 ;(function (window, document){
     
-    var me = this;
-    
     function Tpl(props, events){
-
-        me = this;
-        me.props = props;
-       // me.container = this.props.container;
-        me.enterAnimation = me.props.enterAnimation;
-
-        if(me.enterAnimation && me.enterAnimation!='')
-            me.embedAnimations();
         
+        var me = this;
+        this.props = props;
+        this.events = events;
+       // me.container = this.props.container;
+        this.enterAnimation = this.props.enterAnimation;
+
+        if(this.enterAnimation && this.enterAnimation!='')
+            this.embedAnimations();
+        
+        events.on('loadTpl', function(page){
+            me.loadTpl(page);
+        });
     }
 
     Tpl.prototype = {
@@ -27,8 +29,8 @@
          * Should be faster than innerHTML
          */
         replaceHtml: function(html) { 
-console.log(me.props.container)
-            var oldEl = (typeof me.props.container === "string" ? document.getElementById(me.props.container) : me.props.container);
+
+            var oldEl = (typeof this.props.container === "string" ? document.getElementById(this.props.container) : this.props.container);
             var newEl = oldEl.cloneNode(false);
             //console.log(newEl, html)
             newEl.innerHTML = html;
@@ -42,26 +44,27 @@ console.log(me.props.container)
         loadTpl: function(page){
             
             var me = this; 
-            me.activePage = page;
+            this.activePage = page;
             
-            if(me.isRouteCached(page)){
-                me.render(this.tplCache[page.tpl])
+            if(this.isRouteCached(page)){
+                this.render(this.tplCache[page.tpl])
                 return;
             }
 
-
-            
             tplFile = this.props.tplDir+'/'+page.tpl;
+
             var oReq = new XMLHttpRequest();
 
             oReq.addEventListener("load", function(){
                 
                 if(me.props.cache || page.cache)
                     me.cacheRoute(page, oReq.responseText);
+
                 me.render(oReq.responseText);
+
             });
 
-            oReq.open("GET", tplFile);
+            oReq.open("GET", tplFile, true);
             oReq.send();
 
         },
@@ -103,9 +106,9 @@ console.log(me.props.container)
         /**
          * Main render function 
          */
-        render: function(html){
-
-            var data = (me.activePage.data || me.props.data || {});
+        render: function(html){ 
+            var me = this;
+            var data = (this.activePage.data || this.props.data || {});
                 
             var source = this.parseTpl(html, data);
                 
@@ -115,7 +118,7 @@ console.log(me.props.container)
             this.replaceHtml(source); 
 
 
-            if(me.props.listeners){
+            if(this.props.listeners){
                 setTimeout(function(){
                     if(typeof me.props.listeners.rendered === 'function')
                         me.props.listeners.rendered();
@@ -131,9 +134,10 @@ console.log(me.props.container)
          * Executes after tpl is added
          */
         _afterrender: function(){
+            var me = this;
             setTimeout(function(){
                 if(me.enterAnimation)
-                document.getElementById("container").className = "animated "+me.enterAnimation;
+                    document.getElementById(me.props.container).className = "animated "+me.enterAnimation;
             }, 0);
         },
 
@@ -156,18 +160,13 @@ console.log(me.props.container)
 
     }; 
     
-    if(typeof Micro === "function" && Micro.prototype.isMicro){
-      Micro['Tpl'] = Tpl;
-    }
-    else if ( typeof module != 'undefined' && module.exports ){
+    if(typeof Micro === "function" && Micro.prototype.isMicro)
+        Micro['Tpl'] = Tpl;
+    else if ( typeof module != 'undefined' && module.exports )
 	    module.exports = Tpl;
-    }else if( typeof define == 'function' && define.amd ){
+    else if( typeof define == 'function' && define.amd )
         define( function () { return Tpl; }); 
-    }
-    else{
+    else
         window.Tpl = Tpl;
-    }
-
-
-
+    
 }(window, document));

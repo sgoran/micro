@@ -11,7 +11,7 @@ gulp.task('scripts', function() {
 });
 
 gulp.task('scripts-minify', function() {
-  return gulp.src(['index.js', './src/*.js'])
+  return gulp.src(['Micro.js', './src/*.js'])
     .pipe(concat('micro.min.js'))
     .pipe(uglify())
     .pipe(gulp.dest('./build/'));
