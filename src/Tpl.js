@@ -14,9 +14,7 @@
         if(this.enterAnimation && this.enterAnimation!='')
             this.embedAnimations();
         
-        events.on('loadTpl', function(page){
-            me.loadTpl(page);
-        });
+       
     }
 
     Tpl.prototype = {
@@ -25,18 +23,7 @@
          */
         tplCache: {},
 
-        /**
-         * Should be faster than innerHTML
-         */
-        replaceHtml: function(html) { 
-
-            var oldEl = (typeof this.props.container === "string" ? document.getElementById(this.props.container) : this.props.container);
-            var newEl = oldEl.cloneNode(false);
-            //console.log(newEl, html)
-            newEl.innerHTML = html;
-            oldEl.parentNode.replaceChild(newEl, oldEl);
-
-        },
+        
 
         /**
          * Do XHR for template and call this.render
@@ -65,6 +52,12 @@
             });
 
             oReq.open("GET", tplFile, true);
+
+
+            me.events.fire('beforeTplLoad', {
+                page: this.activePage
+            });
+
             oReq.send();
 
         },
@@ -83,6 +76,48 @@
             this.tplCache[page.tpl] = data;
         },
         
+        
+        
+        /**
+         * Main render function 
+         */
+        render: function(html){ 
+            var me = this;
+            var data = (this.activePage.data || this.props.data || {});
+                
+            var source = this.parseTpl(html, data);
+                
+            // leave animation
+            //document.getElementById("container").className = "animated fadeOut";
+            
+            this.replaceHtml(source); 
+
+            setTimeout(function(){
+                //me.props.listeners.rendered();
+                me.events.fire('render', {
+                    page: this.activePage
+                });
+            }, 0);
+            
+                
+
+            this.animate();    
+
+        },
+
+        /**
+         * Should be faster than innerHTML
+         */
+        replaceHtml: function(html) { 
+
+            var oldEl = (typeof this.props.container === "string" ? document.getElementById(this.props.container) : this.props.container);
+            var newEl = oldEl.cloneNode(false);
+            //console.log(newEl, html)
+            newEl.innerHTML = html;
+            oldEl.parentNode.replaceChild(newEl, oldEl);
+
+        },
+
         /**
          * Mustache replace
          * Should work with nested data/objects like {{data.item}}
@@ -102,38 +137,11 @@
                 return temp;
             });
         },
-        
-        /**
-         * Main render function 
-         */
-        render: function(html){ 
-            var me = this;
-            var data = (this.activePage.data || this.props.data || {});
-                
-            var source = this.parseTpl(html, data);
-                
-            // leave animation
-            //document.getElementById("container").className = "animated fadeOut";
-            
-            this.replaceHtml(source); 
-
-
-            if(this.props.listeners){
-                setTimeout(function(){
-                    if(typeof me.props.listeners.rendered === 'function')
-                        me.props.listeners.rendered();
-                }, 0);
-            }
-                
-
-            this._afterrender();    
-
-        },
 
         /**
          * Executes after tpl is added
          */
-        _afterrender: function(){
+        animate: function(){
             var me = this;
             setTimeout(function(){
                 if(me.enterAnimation)
@@ -152,10 +160,16 @@
          * 
          */
         embedAnimations: function(){
-            var link = document.createElement('link');
-            link.href = 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css';
-            link.rel="stylesheet";
-            document.head.appendChild(link);
+
+            var id = 'microAnimationLibrary';
+            if(!document.getElementById('microAnimationLibrary')){
+                var link = document.createElement('link');
+                link.href = 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css';
+                link.rel="stylesheet";
+                link.id = id;
+                document.head.appendChild(link);
+            }
+            
         }
 
     }; 

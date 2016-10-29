@@ -5,12 +5,8 @@
         
         this.pages = pages;
         this.events = events;//= (Micro && Micro['Pubsub']) ? Micro['Pubsub']: false;
-       
         var me = this;
 
-        this.events.on('pathChange', function(path){ //console.log(path)
-            me.path(path);
-        });
 
     }
 
@@ -30,9 +26,9 @@
                     if(page.afterrender && typeof page.afterrender === 'function')
                         page.afterrender();
                         
-                    if(me.events){
-                        me.events.fire('routechange', page);
-                    }
+                    if(me.events)
+                        me.events.fire('routeMatch', page);
+                    
 
                     //throw this.BreakException;
                 }

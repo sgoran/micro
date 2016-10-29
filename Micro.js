@@ -41,7 +41,13 @@
         this.urlPath = window.location.pathname;
         
         var me = this;
-        this.events.on('routechange', function(page){ 
+        //this.initEventsLogic();
+
+        this.events.on('routeChange', function(path){  //console.log('ROUTE CHANGE', path)
+            me.router.path(path);
+        });
+
+        this.events.on('routeMatch', function(page){   //console.log('ROUTE MATCH', page)
             me.events.fire('loadTpl', page);
             
             me.tpl.props.listeners = { 
@@ -52,8 +58,29 @@
             
         });
 
+        this.events.on('loadTpl', function(page){ //console.log('LOAD TPL', page)
+            me.tpl.loadTpl(page);
+        });
+
+        this.events.on('beforeTplLoad', function(config, params){
+            //me.setOtherListeners();
+            var page = config.page;
+            if(page.on && typeof page.on['beforeTplLoad'] === 'function')
+                page.on['beforeTplLoad'](page, params)
+
+
+            var globalOptions = me.props.options;
+            if(globalOptions.on && typeof globalOptions.on['beforeTplLoad'] === 'function')
+                globalOptions.on['beforeTplLoad'](config, params)
+            
+                
+            
+        });
+
         
-        // attach listeners for back/forward
+
+        
+        // back/forward listeners
         if (window.addEventListener){  
                 window.addEventListener('popstate', function(e){ 
                     me.router.invoke();
@@ -64,6 +91,7 @@
                 me.router.invoke();
             });
         }
+
         this.router.invoke();
         this.setListeners();
 
@@ -75,7 +103,7 @@
 
     Micro.prototype = {
        isMicro: true,
-       aClick: function(e) {
+       microLinkClick: function(e) {
             
             var e = window.e || e;
             var t = e.target;
@@ -83,7 +111,7 @@
             if (t.tagName == 'A'){
                 e.preventDefault();
                 if(t.hasAttribute('micro-route')){
-                    this.events.fire('pathChange', t.getAttribute('micro-route'));
+                    this.events.fire('routeChange', t.getAttribute('micro-route'));
                     return false;
                 }
                     
@@ -107,12 +135,12 @@
 
                     if (el.addEventListener){  
                          el.addEventListener('click', function(e){ 
-                            me.aClick(e)
+                            me.microLinkClick(e)
                         }, false);
                     }
                     else{
                         el.attachEvent('onclick', function(e){
-                            me.aClick(e)
+                            me.microLinkClick(e)
                         });
                     }
 

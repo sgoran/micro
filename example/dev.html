@@ -45,15 +45,10 @@
 
         <main class="mdl-layout__content">
 
-                <div style="float: left; width: 600px;">
+                <div>
                 <!-- Your content goes here -->
-                    <div id="c" style="width: 500px; border: 2px solid red; height: 40vh; float: left;"></div>
-                    <div id="c1" style="width: 500px; border: 2px solid blue; height: 40vh; float: left;"></div>
-                </div>
-
-                <div style="float: right; width: 600px;">
-                    <div id="c2" style="width: 500px; border: 2px solid green; height: 40vh; float: right;"></div>
-                    <div id="c3" style="width: 500px; border: 2px solid black; height: 40vh; float: right;"></div>
+                    <div id="c" style="width: 49%; border: 2px solid red; height: 100vh; float: left;"></div>
+                    <div id="c1" style="width: 49%; border: 2px solid blue; height: 100vh; float: left;"></div>
                 </div>
             
         </main>
@@ -78,6 +73,17 @@
                     data: {
                         stagod: 'primjer'
                     },
+                    on: {
+                        beforeTplLoad: function(page, params){
+                            console.log('iz pagea', page, params)
+                        },
+                        beforerender: function(page, params){
+                            
+                        },
+                        render: function(page, params){
+
+                        }
+                    },
                     afterrender: function(){
                         
                     }
@@ -91,6 +97,11 @@
                     tplDir: '/tpl',
                     //cache: true,
                     container: 'c',
+                    on: {
+                        beforeTplLoad: function(page, params){
+                            console.log(page, params)
+                        }
+                    }
                     
                 } 
             });
@@ -119,7 +130,7 @@
                     tpl: "three.html"
                 }],
                 options:{
-                    enterAnimation: "slideInLeft",
+                    enterAnimation: "slideInRight",
                     loader: true,
                     tplDir: '/tpl',
                     //cache: true,
@@ -128,71 +139,6 @@
                 } 
             });
 
-            var micro2 = new Micro({
-                pages: [{
-                    match: '/',
-                    tpl: "one.html",
-                    data: {
-                        stagod: 2343423
-                    },
-                    afterrender: function(){
-                        
-                    }
-                },{
-                    match: '/two',
-                    tpl: "two.html",
-                    data: {
-                        stagod: 'Embeded'
-                    },
-                    afterrender: function(){
-                        
-                    }
-                },{
-                    match: '/three/:param',
-                    tpl: "three.html"
-                }],
-                options:{
-                    enterAnimation: "flipInY",
-                    loader: true,
-                    tplDir: '/tpl',
-                    //cache: true,
-                    container: 'c2',
-                    
-                } 
-            });
-
-            var micro2 = new Micro({
-                pages: [{
-                    match: '/',
-                    tpl: "one.html",
-                    data: {
-                        stagod: 2343423
-                    },
-                    afterrender: function(){
-                        
-                    }
-                },{
-                    match: '/two',
-                    tpl: "two.html",
-                    data: {
-                        stagod: 'Embeded'
-                    },
-                    afterrender: function(){
-                        
-                    }
-                },{
-                    match: '/three/:param',
-                    tpl: "three.html"
-                }],
-                options:{
-                    enterAnimation: "flipInX",
-                    loader: true,
-                    tplDir: '/tpl',
-                    //cache: true,
-                    container: 'c3',
-                    
-                } 
-            });
     </script>
 
 </body>
