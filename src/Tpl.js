@@ -9,9 +9,9 @@
         this.props = props;
         this.events = events;
        // me.container = this.props.container;
-        this.enterAnimation = this.props.enterAnimation;
+        this.props.enterAnimation;
 
-        if(this.enterAnimation && this.enterAnimation!='')
+        if(this.props.enterAnimation && this.props.enterAnimation!='')
             this.embedAnimations();
         
        
@@ -54,10 +54,9 @@
             oReq.open("GET", tplFile, true);
 
 
-            me.events.fire('beforeTplLoad', {
+            var ok = me.events.fire('beforerender', {
                 page: this.activePage
             });
-
             oReq.send();
 
         },
@@ -95,7 +94,7 @@
             setTimeout(function(){
                 //me.props.listeners.rendered();
                 me.events.fire('render', {
-                    page: this.activePage
+                    page: me.activePage
                 });
             }, 0);
             
@@ -144,8 +143,10 @@
         animate: function(){
             var me = this;
             setTimeout(function(){
-                if(me.enterAnimation)
-                    document.getElementById(me.props.container).className = "animated "+me.enterAnimation;
+                var animation = me.activePage.enterAnimation ||  me.props.enterAnimation;
+                if(animation)
+                    document.getElementById(me.props.container).className = "animated "+animation;
+                
             }, 0);
         },
 

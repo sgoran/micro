@@ -18,21 +18,12 @@
         invoke: function(){
 
             var me = this;
-
+            
             this.pages && this.pages.forEach(function(page) {
                 
-                if(me.doesMatch(page)){
-
-                    if(page.afterrender && typeof page.afterrender === 'function')
-                        page.afterrender();
-                        
-                    if(me.events)
-                        me.events.fire('routeMatch', page);
-                    
-
-                    //throw this.BreakException;
-                }
-                    
+                if(me.doesMatch(page))
+                    me.events.fire('routeMatch', page);
+                
             });
             
             return me;
@@ -79,15 +70,10 @@
         
         path: function(href){
             
-            history.pushState({}, '', href);
-            
-            //console.log(window.location.pathname, href)
-
-           // if(window.location.pathname!=href){
-            
-                this.invoke();
-            //}
-
+            if(window.location.pathname!=href){
+             history.pushState({page: new Date().getTime()}, '',href);
+            }
+            this.invoke();
         },
         
         log: function(msg){

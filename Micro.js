@@ -22,7 +22,7 @@
             return a.join('');
         };
         me.getUniqueId = function(){
-            return shuffle((new Date().getTime().toString()+me.getRandomInt(1, 10000).toString()).split(''));
+            return shuffle((new Date().getTime().toString()+me.getRandomInt(1, 10000).toString()).split('')).trim();
         }
         
 
@@ -33,69 +33,26 @@
 
         this.props = props;
         this.id = utils.getUniqueId();
-        this.events =  new Micro.Pubsub();
-        this.events.id = this.id.trim(); 
-        this.router = new Micro.Router(this.props.pages, this.events);
-        this.tpl = new Micro.Tpl(this.props.options, this.events);
-
-        this.urlPath = window.location.pathname;
+        this.events =  new Micro.Pubsub(this.id);
+        this.defaultTile = window.document.title;
+        var router = new Micro.Router(this.props.pages, this.events);
+        var tpl = new Micro.Tpl(this.props.options, this.events);
         
+        
+        this.initEventsLogic(router, tpl);
+
+        router.invoke();
         var me = this;
-        //this.initEventsLogic();
-
-        this.events.on('routeChange', function(path){  //console.log('ROUTE CHANGE', path)
-            me.router.path(path);
-        });
-
-        this.events.on('routeMatch', function(page){   //console.log('ROUTE MATCH', page)
-            me.events.fire('loadTpl', page);
-            
-            me.tpl.props.listeners = { 
-                rendered: function(){
-                    me.setListeners();
-                }
-            }
-            
-        });
-
-        this.events.on('loadTpl', function(page){ //console.log('LOAD TPL', page)
-            me.tpl.loadTpl(page);
-        });
-
-        this.events.on('beforeTplLoad', function(config, params){
-            //me.setOtherListeners();
-            var page = config.page;
-            if(page.on && typeof page.on['beforeTplLoad'] === 'function')
-                page.on['beforeTplLoad'](page, params)
-
-
-            var globalOptions = me.props.options;
-            if(globalOptions.on && typeof globalOptions.on['beforeTplLoad'] === 'function')
-                globalOptions.on['beforeTplLoad'](config, params)
-            
-                
-            
-        });
-
-        
-
-        
-        // back/forward listeners
-        if (window.addEventListener){  
-                window.addEventListener('popstate', function(e){ 
-                    me.router.invoke();
-                });
-        }
-        else{
-            window.attachEvent('popstate', function(e){
-                me.router.invoke();
-            });
-        }
-
-        this.router.invoke();
-        this.setListeners();
-
-        return this;
+        return {
+            setPage: router.path.bind(router),
+            setTpl: tpl.loadTpl.bind(tpl),
+            render: tpl.render.bind(tpl),
+            setAnimation: function(animation){
+                tpl.props.enterAnimation = animation;
+            },
+            parseTpl: tpl.parseTpl.bind(tpl),
+            //setTplCache: tpl.cacheRoute.bind(tpl),
+        };
 
     };
 
@@ -103,6 +60,47 @@
 
     Micro.prototype = {
        isMicro: true,
+       eventsAdded: false,
+       initEventsLogic: function(router, tpl){
+           
+           if(this.eventsAdded)
+            return;
+            
+            var me = this;
+
+            me.events.on('routeChange', router.path.bind(router));
+            me.events.on('routeMatch', tpl.loadTpl.bind(tpl));
+           
+            var setAppEvents = function(config, params, event){
+                var page = config.page;
+                if(page.on && typeof page.on[event] === 'function')
+                    page.on[event](page, params)
+
+                var globalOptions = me.props.options;
+                if(globalOptions.on && typeof globalOptions.on[event] === 'function')
+                    globalOptions.on[event](config, params)
+            };
+        
+            me.events.on('beforerender', function(config, params){
+                var title = config.page.title;
+                window.document.title = (title ? title : me.defaultTile);
+                setAppEvents(config, params, 'beforerender');
+            });
+
+            me.events.on('render', function(config, params){
+                setAppEvents(config, params, 'render');
+                me.setListeners(); 
+            });
+
+            // back/forward listeners
+            if (window.addEventListener)  
+                window.addEventListener('popstate', router.invoke.bind(router));
+            
+
+            me.eventsAdded = true;
+
+       },
+
        microLinkClick: function(e) {
             
             var e = window.e || e;
@@ -114,8 +112,6 @@
                     this.events.fire('routeChange', t.getAttribute('micro-route'));
                     return false;
                 }
-                    
-
             }
             
         },
@@ -153,7 +149,7 @@
             
 
         },
-    
+        
     }; 
     
     if ( typeof module != 'undefined' && module.exports )

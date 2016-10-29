@@ -60,35 +60,30 @@
         var micro = new Micro({
                 pages: [{
                     match: '/',
+                    enterAnimation: 'fadeIn',
+                    cache: true,
                     tpl: "test.html",
                     data: {
                         stagod: 'primjer'
-                    },
-                    afterrender: function(){
-                        
                     }
                 },{
                     match: '/two',
+                    cache: true,
                     tpl: "two.html",
                     data: {
                         stagod: 'primjer'
                     },
                     on: {
-                        beforeTplLoad: function(page, params){
-                            console.log('iz pagea', page, params)
-                        },
                         beforerender: function(page, params){
-                            
+                            //console.log('iz pagea', page, params)
                         },
                         render: function(page, params){
-
+                            
                         }
-                    },
-                    afterrender: function(){
-                        
                     }
                 },{
                     match: '/three/:param',
+                    cache: true,
                     tpl: "three.html"
                 }],
                 options:{
@@ -98,35 +93,34 @@
                     //cache: true,
                     container: 'c',
                     on: {
-                        beforeTplLoad: function(page, params){
-                            console.log(page, params)
+                        beforerender: function(page, params){
+                           // console.log('GLOBAL', page, params)
                         }
                     }
                     
                 } 
             });
 
-            var micro2 = new Micro({
+            /*var micro2 = new Micro({
                 pages: [{
                     match: '/',
+                    enterAnimation: 'fadeIn',
                     tpl: "one.html",
+                    cache: true,
+                    title: 'Home Page',
                     data: {
                         stagod: 2343423
-                    },
-                    afterrender: function(){
-                        
                     }
                 },{
                     match: '/two',
+                    cache: true,
                     tpl: "two.html",
                     data: {
                         stagod: 'Embeded'
-                    },
-                    afterrender: function(){
-                        
                     }
                 },{
                     match: '/three/:param',
+                    cache: true,
                     tpl: "three.html"
                 }],
                 options:{
@@ -137,7 +131,7 @@
                     container: 'c1',
                     
                 } 
-            });
+            });*/
 
     </script>
 

@@ -1,7 +1,8 @@
 //https://davidwalsh.name/pubsub-javascript
 ;(function(){
 
-  function Pubsub(){
+  function Pubsub(id){
+    this.id = id;
     var topics = {};
     var hOP = topics.hasOwnProperty;
 
