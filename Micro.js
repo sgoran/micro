@@ -44,13 +44,20 @@
         router.invoke();
         var me = this;
         return {
-            setPage: router.path.bind(router),
-            setTpl: tpl.loadTpl.bind(tpl),
+            page: router.path.bind(router),
+            load: tpl.loadTpl.bind(tpl),
             render: tpl.render.bind(tpl),
+            compile: tpl.parseTpl.bind(tpl),
             setAnimation: function(animation){
                 tpl.props.enterAnimation = animation;
             },
-            parseTpl: tpl.parseTpl.bind(tpl),
+            getPage: function(obj){
+                var key = Object.keys(obj)[0]
+                return me.props.pages.filter(function(ob){
+                    return (ob[key]==obj[key]);
+                })[0];
+            }
+            
             //setTplCache: tpl.cacheRoute.bind(tpl),
         };
 

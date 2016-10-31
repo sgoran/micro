@@ -59,16 +59,16 @@
     
         var micro = new Micro({
                 pages: [{
+                    name: 'firstPage',
                     match: '/',
+                    title: 'A A A',
                     enterAnimation: 'fadeIn',
-                    cache: true,
                     tpl: "test.html",
                     data: {
                         stagod: 'primjer'
                     }
                 },{
                     match: '/two',
-                    cache: true,
                     tpl: "two.html",
                     data: {
                         stagod: 'primjer'
@@ -83,18 +83,20 @@
                     }
                 },{
                     match: '/three/:param',
-                    cache: true,
                     tpl: "three.html"
                 }],
                 options:{
                     enterAnimation: "slideInDown",
-                    loader: true,
+                    //loader: true,
                     tplDir: '/tpl',
-                    //cache: true,
+                    cache: true,
                     container: 'c',
                     on: {
                         beforerender: function(page, params){
-                           // console.log('GLOBAL', page, params)
+                            console.log('before render')
+                        },
+                        render: function(){
+                            console.log('renderovano')
                         }
                     }
                     

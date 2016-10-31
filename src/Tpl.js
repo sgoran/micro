@@ -33,6 +33,10 @@
             var me = this; 
             this.activePage = page;
             
+            me.events.fire('beforerender', {
+                page: this.activePage
+            });
+
             if(this.isRouteCached(page)){
                 this.render(this.tplCache[page.tpl])
                 return;
@@ -53,10 +57,6 @@
 
             oReq.open("GET", tplFile, true);
 
-
-            var ok = me.events.fire('beforerender', {
-                page: this.activePage
-            });
             oReq.send();
 
         },
@@ -74,8 +74,6 @@
         cacheRoute: function(page, data){
             this.tplCache[page.tpl] = data;
         },
-        
-        
         
         /**
          * Main render function 
@@ -146,7 +144,6 @@
                 var animation = me.activePage.enterAnimation ||  me.props.enterAnimation;
                 if(animation)
                     document.getElementById(me.props.container).className = "animated "+animation;
-                
             }, 0);
         },
 
