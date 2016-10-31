@@ -106,8 +106,16 @@
          * Should be faster than innerHTML
          */
         replaceHtml: function(html) { 
+            document.getElementById(this.props.container).innerHTML = html;
+
+            return;
+
+
 
             var oldEl = (typeof this.props.container === "string" ? document.getElementById(this.props.container) : this.props.container);
+            if(oldEl==null) 
+                return;
+                
             var newEl = oldEl.cloneNode(false);
             //console.log(newEl, html)
             newEl.innerHTML = html;

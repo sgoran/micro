@@ -1,0 +1,42 @@
+.example-list{
+    width: 300px;
+}
+main{
+    display: flex !important; 
+    flex-direction: row;
+}
+#nav{
+    width: 250px;
+    padding: 10px;
+}
+#app{
+    width: 100%;
+    display: flex;
+}
+#nav ul{
+    margin-top: 0px;
+    padding-top: 0px;
+}
+.mdl-list__item{
+    cursor: pointer;
+    padding: 0px;
+    color: #7f8c8d;
+}
+.section, .section2, .section3{
+    color: #fff;
+    width: 100%;
+    text-align: center;
+    align-items: stretch;
+    background-color: #4DB6AC;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.section2{
+    background-color: #FF8A65;
+}
+
+.section3{
+    background-color: #4DD0E1;
+}
