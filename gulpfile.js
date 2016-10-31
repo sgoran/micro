@@ -5,7 +5,7 @@ var uglify = require('gulp-uglify');
 gulp.task('default', ['scripts', 'scripts-minify']);
 
 gulp.task('scripts', function() {
-  return gulp.src(['index.js', './src/*.js'])
+  return gulp.src(['Micro.js', './src/*.js'])
     .pipe(concat('micro.js'))
     .pipe(gulp.dest('./build/'));
 });
