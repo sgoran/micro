@@ -1,4 +1,52 @@
-.example-list{
+ul.side-nav.fixed li.logo {
+   text-align: center;
+  /* margin-top: 32px; */
+  /* margin-bottom: 80px; */
+  height: 180px;
+  padding: 23px;
+  background: url(office.jpg);
+}
+#nav-mobile li.search {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 120px;
+  margin-top: 1px;
+  padding: 1px 0 0 0;
+  z-index: 2;
+}
+#nav-mobile li.search .search-wrapper {
+  margin: 0 12px;
+  transition: margin .25s ease;
+}
+main{
+    padding-left: 300px;
+}
+@media only screen and (max-width: 992px){ 
+    main{
+    padding-left: 0px;
+}
+}
+/*
+.brand-logo{
+    margin-left: 15px; 
+}
+#body{
+    padding: 0px !important;
+}
+
+
+#app{ 
+    display: flex;
+    align-items: stretch;
+    flex-direction: row;
+    
+}*/
+
+
+
+
+/*.example-list{
     width: 300px;
 }
 main{
@@ -21,7 +69,7 @@ main{
     cursor: pointer;
     padding: 0px;
     color: #7f8c8d;
-}
+}*/
 .section, .section2, .section3{
     color: #fff;
     width: 100%;
