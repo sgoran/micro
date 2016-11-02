@@ -1,10 +1,18 @@
+.animated{
+  -webkit-animation-duration: 0.6s !important;
+  animation-duration: 0.6s !important;
+}
+
+html, body{
+    height: 100%;
+}
 ul.side-nav.fixed li.logo {
    text-align: center;
   /* margin-top: 32px; */
   /* margin-bottom: 80px; */
-  height: 180px;
+  height: 280px;
   padding: 23px;
-  background: url(office.jpg);
+  background: url(micro.jpg);
 }
 #nav-mobile li.search {
   position: absolute;
@@ -15,12 +23,24 @@ ul.side-nav.fixed li.logo {
   padding: 1px 0 0 0;
   z-index: 2;
 }
+nav{
+    background-color: #00695c; 
+}
 #nav-mobile li.search .search-wrapper {
   margin: 0 12px;
   transition: margin .25s ease;
 }
+
 main{
     padding-left: 300px;
+}
+.logo{
+    padding-top: 94px!important;
+}
+.logo h3{
+ font-weight: bold;
+ color: whitesmoke;
+
 }
 @media only screen and (max-width: 992px){ 
     main{
@@ -71,6 +91,7 @@ main{
     color: #7f8c8d;
 }*/
 .section, .section2, .section3{
+    height: 100%;
     color: #fff;
     width: 100%;
     text-align: center;

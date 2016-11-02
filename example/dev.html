@@ -1,176 +1,195 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <script src="../Micro.js"></script>
-    <script src="../Pubsub.js"></script>
-    <script src="../Router.js"></script>
-    <script src="../Tpl.js"></script>
-
-    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-
-    <link rel="stylesheet" href="style.css">
-
-    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
-    
-</head>
-<body>
-    
-    <header>
-      <nav class="top-nav">
-        <div class="container">
-          <div class="nav-wrapper"><a class="page-title">Micro</a></div>
-        </div>
-      </nav>
-      <div class="container"><a href="#" data-activates="nav-mobile" class="button-collapse top-nav full hide-on-large-only"><i class="material-icons">menu</i></a></div>
-      <ul id="nav-mobile" class="side-nav fixed">
-        <li class="logo">
-            <img src="m.png" alt="" height="120">
-        </li>
-        <li class="no-padding">
-          <ul class="collapsible collapsible-accordion">
-            <li class="bold">
-                <a class="collapsible-header   waves-effect waves-teal" micro-route="/guide">Guide</a>
-              
-                <ul>
-                  <li><a href="color.html">Color</a></li>
-                  <li class=""><a href="grid.html">Grid</a></li>
-                  <li><a href="helpers.html">Helpers</a></li>
-                </ul>
-            </li>
-            <li class="bold"><a class="collapsible-header    waves-effect waves-teal" micro-route="/api">Api</a>
-              
-                <ul>
-                  <li><a href="badges.html">Badges</a></li>
-                  <li><a href="buttons.html">Buttons</a></li>
-                  <li><a href="breadcrumbs.html">Breadcrumbs</a></li>
-                  <li><a href="cards.html">Cards</a></li>
-                </ul>
-              
-            </li>
-            <li class="bold">
-                <a class="collapsible-header waves-effect" micro-route="/examples">Examples</a>
-              
-                <ul>
-                  <li><a micro-route="/examples">Carousel</a></li>
-                  <li><a href="collapsible.html">Collapsible</a></li>
-                  <li><a href="dialogs.html">Dialogs</a></li>
-                </ul>
-              
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </header>
-    
-    <main>
-        <div class="col s12 m9 l10" id="app">
-        <a micro-route="/examples"> fdasf asdf</a>
-        </div> 
-    </main> 
-
-
-    <script type="text/javascript">
-    
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
+        <script src="../Micro.js"></script>
+        <script src="../Pubsub.js"></script>
+        <script src="../Router.js"></script>
+        <script src="../Tpl.js"></script>
 
-            $( document ).ready(function(){
-//$('.button-collapse').sideNav({'edge': 'left'});
-                var micro = new Micro({
-                options: {
-                    enterAnimation: true,
-                    tplDir: '/tpl',
-                    cache: true,
-                    container: 'app',
-                    on: {
-                        beforerender: function(page, params){
-                            console.log('before render', page)
-                        },
-                        render: function(){
-                            console.log('renderovano')
-                             //
-                        }
-                    }
-                    
-                },
-                pages: [{
-                    name: 'firstPage',
-                    match: '/examples',
-                    enterAnimation: "fadeIn",
-                    title: 'Examples',
-                    tpl: "examples.html",
-                    data: {
-                        sample: 'Examples'
-                    },
-                },{
-                    match: '/guide',
-                    tpl: "guide.html",
-                    enterAnimation: "fadeInRight",
-                    title: 'Section 2',
-                    data: {
-                        sample: 'SECTION 2'
-                    },
-                    on: {
-                        beforerender: function(page, params){
-                            //console.log('iz pagea', page, params)
-                             $('.button-collapse').sideNav('destroy');
-                        },
-                        render: function(page, params){
-                            $(".button-collapse").sideNav();
-                        }
-                    }
-                },{
-                    match: '/api',
-                    enterAnimation: "fadeInUp",
-                    tpl: "api.html",
-                    title: 'Section 3',
-                    data: {
-                        sample: 'SECTION 3'
-                    },
-                    
-                }]
-               
-            });
-            }) 
-            
-            /*var micro2 = new Micro({
-                pages: [{
-                    match: '/',
-                    enterAnimation: 'fadeIn',
-                    tpl: "one.html",
-                    cache: true,
-                    title: 'Home Page',
-                    data: {
-                        stagod: 2343423
-                    }
-                },{
-                    match: '/two',
-                    cache: true,
-                    tpl: "two.html",
-                    data: {
-                        stagod: 'Embeded'
-                    }
-                },{
-                    match: '/three/:param',
-                    cache: true,
-                    tpl: "three.html"
-                }],
-                options:{
-                    enterAnimation: "slideInRight",
-                    loader: true,
-                    tplDir: '/tpl',
-                    //cache: true,
-                    container: 'c1',
-                    
-                } 
-            });*/
-    </script>
+        <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
 
-</body>
-</html>
+        <link rel="stylesheet" href="style.css">
+
+        <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+        
+    </head>
+    <body>
+        
+        <header>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                <a data-activates="navig"  class="button-collapse top-nav full hide-on-large-only"><i class="material-icons">menu</i></a>
+                <ul class="right">
+                    <li><a micro-route="/guide">Guide</a></li>
+                    <li><a micro-route="/api">Docs</a></li>
+                    <li><a micro-route="/examples">Examples</a></li>
+                    <li><a micro-route="/showcase">Showcase</a></li>
+                    <!--<li><a href="badges.html"><i class="material-icons">view_module</i></a></li>-->
+                </ul>
+                </div>
+            </nav>    
+        </div>
+        <ul id="navig" class="side-nav fixed">          
+            <li class="logo">
+                <h3>MICRO</h3>
+            </li>
+            <li>
+                <ul id="subnav">
+                    
+                </ul>
+            </li>
+        </ul>
+        </header>
+        
+        <main>
+            <div class="col s12 m9 l10" id="app">
+            <a micro-route="/examples"> fdasf asdf</a>
+            </div> 
+        </main> 
+
+
+        <script type="text/javascript">
+        
+            var micro, micro2;
+
+                $( document ).ready(function(){
+
+                    $('.button-collapse').sideNav({'edge': 'left'});
+                     
+                    micro = new Micro({
+                        options: {
+                            enterAnimation: 'fadeIn',
+                            tplDir: '/tpl',
+                            cache: true,
+                            container: 'app',
+                            on: {
+                                render: function(){
+                                    $('.carousel').carousel();
+                                }
+                            }
+                           
+                            
+                        },
+                        pages: [{
+                            name: 'firstPage',
+                            match: '/examples',
+                            title: 'Examples',
+                            tpl: "examples.html",
+                            data: {
+                                sample: 'Examples'
+                            },
+                        },{
+                            match: '/guide',
+                            tpl: "guide.html",
+                            title: 'Guide',
+                            data: {
+                                sample: 'Guide'
+                            },
+                            on: {
+                                beforerender: function(page, params){
+                                    //console.log('iz pagea', page, params)
+                                    //$('.button-collapse').sideNav('destroy');
+                                },
+                                render: function(page, params){
+                                    //$(".button-collapse").sideNav();
+                                }
+                            }
+                        },{
+                            match: '/api',
+                            tpl: "api.html",
+                            title: 'Api',
+                            data: {
+                                sample: 'Api'
+                            },
+                            
+                        },{
+                            match: '/showcase',
+                            tpl: "showcase.html",
+                            title: 'Showcase'
+                        }]
+                
+                    });
+                    
+                    micro2  = new Micro({
+                        options: {
+                            enterAnimation: 'fadeInLeft',
+                            tplDir: '/tpl',
+                            container: 'subnav',
+                            
+                        },
+                        pages: [{
+                                match: '/guide',
+                                tpl: "guide-nav.html"
+                            },{
+                                match: '/api',
+                                tpl: "docks-nav.html"
+                            }
+                           /* {
+                            name: 'firstPage',
+                            match: '/examples',
+                            title: 'Examples',
+                            tpl: "examples.html",
+                            data: {
+                                sample: 'Examples'
+                            },
+                        },{
+                            match: '/api',
+                            tpl: "api.html",
+                            title: 'Api',
+                            data: {
+                                sample: 'Api'
+                            },
+                            
+                        },{
+                            match: '/showcase',
+                            tpl: "showcase.html",
+                            title: 'Showcase'
+                        }*/
+                        ]
+                
+                    });
+                });
+                
+                /*var micro2 = new Micro({
+                    pages: [{
+                        match: '/',
+                        enterAnimation: 'fadeIn',
+                        tpl: "one.html",
+                        cache: true,
+                        title: 'Home Page',
+                        data: {
+                            stagod: 2343423
+                        }
+                    },{
+                        match: '/two',
+                        cache: true,
+                        tpl: "two.html",
+                        data: {
+                            stagod: 'Embeded'
+                        }
+                    },{
+                        match: '/three/:param',
+                        cache: true,
+                        tpl: "three.html"
+                    }],
+                    options:{
+                        enterAnimation: "slideInRight",
+                        loader: true,
+                        tplDir: '/tpl',
+                        //cache: true,
+                        container: 'c1',
+                        
+                    } 
+                });*/
+        </script>
+
+    </body>
+    </html>
