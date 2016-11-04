@@ -10,9 +10,9 @@ ul.side-nav.fixed li.logo {
    text-align: center;
   /* margin-top: 32px; */
   /* margin-bottom: 80px; */
-  height: 280px;
+  height: 172px;
   padding: 23px;
-  background: url(micro.jpg);
+  /*background: url(micro.jpg);*/
 }
 #nav-mobile li.search {
   position: absolute;
@@ -35,11 +35,14 @@ main{
     padding-left: 300px;
 }
 .logo{
-    padding-top: 94px!important;
+    padding-top: 52px!important;
 }
 .logo h3{
- font-weight: bold;
- color: whitesmoke;
+  font-weight: bold;
+  font-style: oblique;
+  font-family: cursive;
+  color: #525252;
+  font-size: 45px;
 
 }
 @media only screen and (max-width: 992px){ 
