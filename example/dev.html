@@ -26,14 +26,13 @@
             <div class="navbar-fixed">
                 <nav>
                     <div class="nav-wrapper">
-                    <a data-activates="navig"  class="button-collapse top-nav full hide-on-large-only"><i class="material-icons">menu</i></a>
-                    <ul class="right">
-                        <li><a micro-route="/guide">Guide</a></li>
-                        <li><a micro-route="/api">Docs</a></li>
-                        <li><a micro-route="/examples">Examples</a></li>
-                        <li><a micro-route="/showcase">Showcase</a></li>
-                        <!--<li><a href="badges.html"><i class="material-icons">view_module</i></a></li>-->
-                    </ul>
+                        <a data-activates="navig"  class="button-collapse top-nav full hide-on-large-only"><i class="material-icons">menu</i></a>
+                        <ul class="right">
+                            <li><a micro-route="/">Guide</a></li>
+                            <li><a micro-route="/api">Docs</a></li>
+                            <li><a micro-route="/examples">Examples</a></li>
+                            <li><a micro-route="/showcase">Showcase</a></li>
+                        </ul>
                     </div>
                 </nav>    
             </div>
@@ -60,135 +59,75 @@
         
             var micro, micro2;
 
-                $( document ).ready(function(){
-
-                    $('.button-collapse').sideNav({'edge': 'left'});
-                     
-                    micro = new Micro({
-                        options: {
-                            enterAnimation: 'fadeIn',
-                            tplDir: '/tpl',
-                            cache: true,
-                            container: 'app',
-                            on: {
-                                render: function(){
-                                    $('.carousel').carousel();
-                                }
-                            }
-                           
-                            
-                        },
-                        pages: [{
-                            name: 'firstPage',
-                            match: '/examples',
-                            title: 'Examples',
-                            tpl: "examples.html",
-                            data: {
-                                sample: 'Examples'
-                            },
-                        },{
-                            match: '/guide',
-                            tpl: "guide.html",
-                            title: 'Guide',
-                            data: {
-                                sample: 'Guide'
-                            },
-                            on: {
-                                beforerender: function(page, params){
-                                    //console.log('iz pagea', page, params)
-                                    //$('.button-collapse').sideNav('destroy');
-                                },
-                                render: function(page, params){
-                                    //$(".button-collapse").sideNav();
-                                }
-                            }
-                        },{
-                            match: '/api',
-                            tpl: "api.html",
-                            title: 'Api',
-                            data: {
-                                sample: 'Api'
-                            },
-                            
-                        },{
-                            match: '/showcase',
-                            tpl: "showcase.html",
-                            title: 'Showcase'
-                        }]
+            $( document ).ready(function(){
                 
-                    });
-                    
-                    micro2  = new Micro({
-                        options: {
-                            enterAnimation: 'fadeInLeft',
-                            tplDir: '/tpl',
-                            container: 'subnav',
-                            
-                        },
-                        pages: [{
-                                match: '/guide',
-                                tpl: "guide-nav.html"
-                            },{
-                                match: '/api',
-                                tpl: "docks-nav.html"
-                            }
-                           /* {
-                            name: 'firstPage',
-                            match: '/examples',
-                            title: 'Examples',
-                            tpl: "examples.html",
-                            data: {
-                                sample: 'Examples'
-                            },
-                        },{
-                            match: '/api',
-                            tpl: "api.html",
-                            title: 'Api',
-                            data: {
-                                sample: 'Api'
-                            },
-                            
-                        },{
-                            match: '/showcase',
-                            tpl: "showcase.html",
-                            title: 'Showcase'
-                        }*/
-                        ]
-                
-                    });
-                });
-                
-                /*var micro2 = new Micro({
-                    pages: [{
-                        match: '/',
+                micro = new Micro({
+                    options: {
                         enterAnimation: 'fadeIn',
-                        tpl: "one.html",
-                        cache: true,
-                        title: 'Home Page',
-                        data: {
-                            stagod: 2343423
-                        }
-                    },{
-                        match: '/two',
-                        cache: true,
-                        tpl: "two.html",
-                        data: {
-                            stagod: 'Embeded'
-                        }
-                    },{
-                        match: '/three/:param',
-                        cache: true,
-                        tpl: "three.html"
-                    }],
-                    options:{
-                        enterAnimation: "slideInRight",
-                        loader: true,
                         tplDir: '/tpl',
-                        //cache: true,
-                        container: 'c1',
+                        cache: true,
+                        container: 'app',
+                        on: {
+                            beforerender: function(page, params){
+                                // do something here before page render
+                            },
+                            render: function(page, params){
+                                // do something here after page render
+                            }
+                        }
+                    },
+                    pages: [{
+                        match: '/api',
+                        tpl: "api.html",
+                        title: 'Api',
+                        data: {
+                            sample: 'Api'
+                        },
                         
-                    } 
-                });*/
+                    }, {
+                        name: 'firstPage',
+                        match: '/examples',
+                        title: 'Examples',
+                        tpl: "examples.html",
+                        data: {
+                            sample: 'Examples'
+                        },
+                    },{
+                        match: '/',
+                        tpl: "guide.html",
+                        title: 'Guide',
+                        data: {
+                            sample: 'Guide'
+                        }
+                    },{
+                        match: '/showcase',
+                        tpl: "showcase.html",
+                        title: 'Showcase'
+                    }]
+            
+                });
+                                    
+                micro2  = new Micro({
+                    options: {
+                        enterAnimation: 'fadeInLeft',
+                        tplDir: '/tpl',
+                        container: 'subnav',
+                        cache: true
+                    },
+                    pages: [{
+                            match: '/',
+                            tpl: "guide-nav.html"
+                        },{
+                            match: '/api',
+                            tpl: "docks-nav.html"
+                    }]
+            
+                });
+
+                $('.button-collapse').sideNav({'edge': 'left'});
+
+            });
+                
         </script>
 
     </body>
