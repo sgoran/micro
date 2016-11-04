@@ -2,7 +2,15 @@
   -webkit-animation-duration: 0.6s !important;
   animation-duration: 0.6s !important;
 }
-
+nav{
+    background-color: #ffffff !important;
+}
+nav .button-collapse { 
+    color: #525252;
+}
+nav ul li a{
+      color: #525252;
+}
 html, body{
     height: 100%;
 }
