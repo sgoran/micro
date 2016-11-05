@@ -35,15 +35,19 @@
         this.id = utils.getUniqueId();
         this.events =  new Micro.Pubsub(this.id);
         this.defaultTile = window.document.title;
+
         var router = new Micro.Router(this.props.pages, this.events);
         var tpl = new Micro.Tpl(this.props.options, this.events);
         
-        
+        this.setListeners();
+
         this.initEventsLogic(router, tpl);
 
         router.invoke();
         var me = this;
+
         return {
+            id: me.id,
             page: router.path.bind(router),
             load: tpl.loadTpl.bind(tpl),
             render: tpl.render.bind(tpl),

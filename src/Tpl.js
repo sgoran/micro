@@ -33,6 +33,10 @@
             var me = this; 
             this.activePage = page;
             
+
+            document.getElementById(me.props.container).className = "";
+            document.getElementById(me.props.container).style.opacity = 0;
+
             me.events.fire('beforerender', {
                 page: this.activePage
             });
@@ -84,20 +88,14 @@
                 
             var source = this.parseTpl(html, data);
                 
-            // leave animation
-            //document.getElementById("container").className = "animated fadeOut";
-            
             this.replaceHtml(source); 
 
             setTimeout(function(){
-                //me.props.listeners.rendered();
                 me.events.fire('render', {
                     page: me.activePage
                 });
             }, 0);
             
-                
-
             this.animate();    
 
         },
@@ -106,7 +104,14 @@
          * Should be faster than innerHTML
          */
         replaceHtml: function(html) { 
-            document.getElementById(this.props.container).innerHTML = html;
+            var me = this;
+            //document.getElementById(me.props.container).className = "animated fadeOut";
+
+            //setTimeout(function() {
+                
+                document.getElementById(me.props.container).innerHTML = html;    
+            //}, 1300);
+            
 
             return;
 

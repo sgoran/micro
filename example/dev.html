@@ -1,157 +1,134 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <script src="../Micro.js"></script>
-    <script src="../Pubsub.js"></script>
-    <script src="../Router.js"></script>
-    <script src="../Tpl.js"></script>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script src="../Micro.js"></script>
+        <script src="../Pubsub.js"></script>
+        <script src="../Router.js"></script>
+        <script src="../Tpl.js"></script>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-     <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.pink-red.min.css" />
-    <link rel="stylesheet" href="style.css">
-    <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+        <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
 
-    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
-    
-</head>
-<body>
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <link rel="stylesheet" href="style.css">
 
-        <header class="mdl-layout__header">
-            <div class="mdl-layout__header-row">
-                <!-- Title -->
-                <span class="mdl-layout-title">Micro</span>
-                <!-- Add spacer, to align navigation to the right -->
-                <div class="mdl-layout-spacer"></div>
-                <!-- Navigation -->
-                <nav class="mdl-navigation">
-                    <a class="mdl-navigation__link" href="">Guide</a>
-                    <a class="mdl-navigation__link" href="">Api</a>
-                    <a class="mdl-navigation__link" href="">Examples</a>
-                </nav>
+        <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+        
+    </head>
+    <body>
+        
+        <header>
+            <div class="navbar-fixed">
+                <nav>
+                    <div class="nav-wrapper">
+                        <a data-activates="navig"  class="button-collapse top-nav full hide-on-large-only"><i class="material-icons">menu</i></a>
+                        <ul class="right">
+                            <li><a micro-route="/">Guide</a></li>
+                            <li><a micro-route="/api">Docs</a></li>
+                            <li><a micro-route="/examples">Examples</a></li>
+                            <li><a micro-route="/showcase">Showcase</a></li>
+                        </ul>
+                    </div>
+                </nav>    
             </div>
+            <ul id="navig" class="side-nav fixed">          
+                <li class="logo">
+                    <h3>MICRO</h3>
+                </li>
+                <li>
+                    <ul id="subnav">
+                        
+                    </ul>
+                </li>
+            </ul>
         </header>
         
-        <main class="mdl-layout__content">
-            
-            <div id="nav">
-                <h4>Examples</h4>
-                <ul class="mdl-list mdl-components__nav">
-                    <li class="mdl-list__item">
-                        <a class="mdl-navigation__link mdl-component"  micro-route="/" >Section  1</a>
-                    </li>
-                    <li class="mdl-list__item">
-                        <a class="mdl-navigation__link"  micro-route="/page" >Section 2</a>
+        <main>
+            <div class="col s12 m9 l10" id="app">
+            <a micro-route="/examples"> fdasf asdf</a>
+            </div> 
+        </main> 
+
+
+        <script type="text/javascript">
+        
+            var micro, micro2;
+
+            $( document ).ready(function(){
+                
+                micro = new Micro({
+                    options: {
+                        enterAnimation: 'fadeIn',
+                        tplDir: '/tpl',
+                        cache: true,
+                        container: 'app',
+                        on: {
+                            beforerender: function(page, params){
+                                // do something here before page render
+                            },
+                            render: function(page, params){
+                                // do something here after page render
+                            }
+                        }
+                    },
+                    pages: [{
+                        match: '/api',
+                        tpl: "api.html",
+                        title: 'Api',
+                        data: {
+                            sample: 'Api'
+                        },
                         
-                    </li>
-                    <li class="mdl-list__item">
-                        <a class="mdl-navigation__link"  micro-route="/category/param1" >Section 3</a>
-                    </li>
-                </ul>
-            </div>
-                
-                
-            <div id="app">
-                <!-- Your content goes here -->
-            </div>
-
-        </main>
-
-        </div>
-    
-
-    <script type="text/javascript">
-    
-        var micro = new Micro({
-                pages: [{
-                    name: 'firstPage',
-                    match: '/',
-                    enterAnimation: "fadeInDown",
-                    title: 'Section 1',
-                    tpl: "section.html",
-                    data: {
-                        sample: 'SECTION 1'
-                    }
-                },{
-                    match: '/page',
-                    tpl: "section2.html",
-                    enterAnimation: "fadeInRight",
-                    title: 'Section 2',
-                    data: {
-                        sample: 'SECTION 2'
-                    },
-                    on: {
-                        beforerender: function(page, params){
-                            //console.log('iz pagea', page, params)
+                    }, {
+                        name: 'firstPage',
+                        match: '/examples',
+                        title: 'Examples',
+                        tpl: "examples.html",
+                        data: {
+                            sample: 'Examples'
                         },
-                        render: function(page, params){
-                            
+                    },{
+                        match: '/',
+                        tpl: "guide.html",
+                        title: 'Guide',
+                        data: {
+                            sample: 'Guide'
                         }
-                    }
-                },{
-                    match: '/category/:param',
-                    enterAnimation: "fadeInUp",
-                    tpl: "section3.html",
-                    title: 'Section 3',
-                    data: {
-                        sample: 'SECTION 3'
+                    },{
+                        match: '/showcase',
+                        tpl: "showcase.html",
+                        title: 'Showcase'
+                    }]
+            
+                });
+                                    
+                micro2  = new Micro({
+                    options: {
+                        enterAnimation: 'fadeInLeft',
+                        tplDir: '/tpl',
+                        container: 'subnav',
+                        cache: true
                     },
-                    
-                }],
-                options:{
-                    enterAnimation: true,
-                    tplDir: '/tpl',
-                    cache: true,
-                    container: 'app',
-                    on: {
-                        beforerender: function(page, params){
-                            console.log('before render')
-                        },
-                        render: function(){
-                            console.log('renderovano')
-                        }
-                    }
-                    
-                } 
+                    pages: [{
+                            match: '/',
+                            tpl: "guide-nav.html"
+                        },{
+                            match: '/api',
+                            tpl: "docks-nav.html"
+                    }]
+            
+                });
+
+                $('.button-collapse').sideNav({'edge': 'left'});
+
             });
+                
+        </script>
 
-            /*var micro2 = new Micro({
-                pages: [{
-                    match: '/',
-                    enterAnimation: 'fadeIn',
-                    tpl: "one.html",
-                    cache: true,
-                    title: 'Home Page',
-                    data: {
-                        stagod: 2343423
-                    }
-                },{
-                    match: '/two',
-                    cache: true,
-                    tpl: "two.html",
-                    data: {
-                        stagod: 'Embeded'
-                    }
-                },{
-                    match: '/three/:param',
-                    cache: true,
-                    tpl: "three.html"
-                }],
-                options:{
-                    enterAnimation: "slideInRight",
-                    loader: true,
-                    tplDir: '/tpl',
-                    //cache: true,
-                    container: 'c1',
-                    
-                } 
-            });*/
-
-    </script>
-
-</body>
-</html>
+    </body>
+    </html>

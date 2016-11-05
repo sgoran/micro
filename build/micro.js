@@ -35,15 +35,19 @@
         this.id = utils.getUniqueId();
         this.events =  new Micro.Pubsub(this.id);
         this.defaultTile = window.document.title;
+
         var router = new Micro.Router(this.props.pages, this.events);
         var tpl = new Micro.Tpl(this.props.options, this.events);
         
-        
+        this.setListeners();
+
         this.initEventsLogic(router, tpl);
 
         router.invoke();
         var me = this;
+
         return {
+            id: me.id,
             page: router.path.bind(router),
             load: tpl.loadTpl.bind(tpl),
             render: tpl.render.bind(tpl),
@@ -343,6 +347,10 @@
             var me = this; 
             this.activePage = page;
             
+
+            document.getElementById(me.props.container).className = "";
+            document.getElementById(me.props.container).style.opacity = 0;
+
             me.events.fire('beforerender', {
                 page: this.activePage
             });
@@ -394,20 +402,14 @@
                 
             var source = this.parseTpl(html, data);
                 
-            // leave animation
-            //document.getElementById("container").className = "animated fadeOut";
-            
             this.replaceHtml(source); 
 
             setTimeout(function(){
-                //me.props.listeners.rendered();
                 me.events.fire('render', {
                     page: me.activePage
                 });
             }, 0);
             
-                
-
             this.animate();    
 
         },
@@ -416,7 +418,14 @@
          * Should be faster than innerHTML
          */
         replaceHtml: function(html) { 
-            document.getElementById(this.props.container).innerHTML = html;
+            var me = this;
+            //document.getElementById(me.props.container).className = "animated fadeOut";
+
+            //setTimeout(function() {
+                
+                document.getElementById(me.props.container).innerHTML = html;    
+            //}, 1300);
+            
 
             return;
 
