@@ -1,10 +1,16 @@
 var express = require('express'), app = express();
 
+var file = 'index'
+process.argv.forEach((val, index) => {
+  if(val=='dev')
+    file = 'dev';
+});
+
 app.get('/*',function(request, response, next) {
   if((/\.(gif|jpg|jpeg|png|js|css|html)$/i).test(request.url))
     next();
   else
-    response.sendFile(__dirname+'/example/dev.html');
+    response.sendFile(__dirname+'/example/'+file+'.html');
  });
 
 

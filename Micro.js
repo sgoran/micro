@@ -3,66 +3,41 @@
  */
 ;(function (window, document){
 
-    var utils = (function(){
-        var me = this;
-
-        me.getRandomInt = function (min, max) {
-            min = Math.ceil(min);
-            max = Math.floor(max);
-            return Math.floor(Math.random() * (max - min)) + min;
-        };
-        function shuffle(a) {
-            var j, x, i;
-            for (i = a.length; i; i--) {
-                j = Math.floor(Math.random() * i);
-                x = a[i - 1];
-                a[i - 1] = a[j];
-                a[j] = x;
-            }
-            return a.join('');
-        };
-        me.getUniqueId = function(){
-            return shuffle((new Date().getTime().toString()+me.getRandomInt(1, 10000).toString()).split('')).trim();
-        }
-        
-
-        return me;
-    }());
-
     function Micro(props){
 
+        // set all properties
         this.props = props;
-        this.id = utils.getUniqueId();
-        this.events =  new Micro.Pubsub(this.id);
+        this.id = this.utils.getUniqueId();
         this.defaultTile = window.document.title;
 
-        var router = new Micro.Router(this.props.pages, this.events);
-        var tpl = new Micro.Tpl(this.props.options, this.events);
+        // instantiate new instances with every Micro instance
+        this.events =  new Micro.Pubsub(this.id);
+        var router = new Micro.Router(this.props.router, this.events);
+        var tpl = new Micro.Tpl(this.props.config, this.events);
         
         this.setListeners();
-
         this.initEventsLogic(router, tpl);
-
         router.invoke();
+
         var me = this;
 
+        // return public API
         return {
             id: me.id,
             page: router.path.bind(router),
             load: tpl.loadTpl.bind(tpl),
-            render: tpl.render.bind(tpl),
+            render: tpl.replaceHtml.bind(tpl),
             compile: tpl.parseTpl.bind(tpl),
             setAnimation: function(animation){
                 tpl.props.enterAnimation = animation;
             },
             getPage: function(obj){
-                var key = Object.keys(obj)[0]
-                return me.props.pages.filter(function(ob){
+                var key = Object.keys(obj)[0];
+                return me.props.router.filter(function(ob){
                     return (ob[key]==obj[key]);
                 })[0];
             }
             
-            //setTplCache: tpl.cacheRoute.bind(tpl),
         };
 
     };
@@ -70,8 +45,21 @@
     
 
     Micro.prototype = {
+
+       /**
+        * In cae other Micro global variable exists
+        */
        isMicro: true,
+
+       /**
+        * initEventsLogic marker
+        */
        eventsAdded: false,
+
+       /**
+        * Set observable logic betwen modules
+        * For example route match will trigger load template etc
+        */
        initEventsLogic: function(router, tpl){
            
            if(this.eventsAdded)
@@ -87,7 +75,7 @@
                 if(page.on && typeof page.on[event] === 'function')
                     page.on[event](page, params)
 
-                var globalOptions = me.props.options;
+                var globalOptions = me.props.config;
                 if(globalOptions.on && typeof globalOptions.on[event] === 'function')
                     globalOptions.on[event](config, params)
             };
@@ -112,6 +100,9 @@
 
        },
 
+       /**
+        * Fires on 
+        */
        microLinkClick: function(e) {
             
             var e = window.e || e;
@@ -119,22 +110,25 @@
 
             if (t.tagName == 'A'){
                 e.preventDefault();
-                if(t.hasAttribute('micro-route')){
-                    this.events.fire('routeChange', t.getAttribute('micro-route'));
+                if(t.hasAttribute('micro-link')){
+                    this.events.fire('routeChange', t.getAttribute('micro-link'));
                     return false;
                 }
             }
             
         },
 
+        /**
+         * Set listeners to all micro-links and mark them with Micro instance id
+         * in case multiple instance exists
+         */
         setListeners: function(){
 
            var me = this;
 
            setTimeout(function() {
                
-               // set listeners to all links and mark them with MicroID
-              Array.prototype.slice.call(document.querySelectorAll('[micro-route]')).forEach(function(el){
+              Array.prototype.slice.call(document.querySelectorAll('[micro-link]')).forEach(function(el){
                 if(!el.microId || (el.microId && el.microId.length && el.microId.indexOf(me.id)<0)){
                     
                     if(!el.microId)
@@ -160,6 +154,38 @@
             
 
         },
+
+        /**
+         * Some helpers
+         */
+        utils: (function(){
+
+            var me = this;
+
+            function getRandomInt(min, max) {
+                min = Math.ceil(min);
+                max = Math.floor(max);
+                return Math.floor(Math.random() * (max - min)) + min;
+            };
+
+            function shuffle(a) {
+                var j, x, i;
+                for (i = a.length; i; i--) {
+                    j = Math.floor(Math.random() * i);
+                    x = a[i - 1];
+                    a[i - 1] = a[j];
+                    a[j] = x;
+                }
+                return a.join('');
+            };
+
+            me.getUniqueId = function(){
+                return shuffle((new Date().getTime().toString()+getRandomInt(1, 10000).toString()).split('')).trim();
+            }
+            
+            return me;
+
+        }())
         
     }; 
     

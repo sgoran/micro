@@ -37,11 +37,6 @@
 
   if(typeof Micro === "function" && Micro.prototype.isMicro)
       Micro['Pubsub'] = Pubsub;
-  else if ( typeof module != 'undefined' && module.exports )
-      module.exports = Pubsub;
-  else if( typeof define == 'function' && define.amd )
-      define( function () { return Pubsub; }); 
-  else
-      window.Pubsub = Pubsub;
+      
   
 })();

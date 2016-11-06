@@ -1,6 +1,9 @@
+@import url(https://fonts.googleapis.com/css?family=Arimo:400,400italic,700,700italic);
+@import url(https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css);
+@import url(http://fonts.googleapis.com/icon?family=Material+Icons);
 .animated{
-  -webkit-animation-duration: 0.6s !important;
-  animation-duration: 0.6s !important;
+  /*-webkit-animation-duration: 0.6s !important;
+  animation-duration: 0.6s !important;*/
 }
 nav{
     background-color: #ffffff !important;
@@ -13,6 +16,7 @@ nav ul li a{
 }
 html, body{
     height: 100%;
+    font-family: 'Arimo', sans-serif;
 }
 ul.side-nav.fixed li.logo {
    text-align: center;
@@ -47,8 +51,7 @@ main{
 }
 .logo h3{
   font-weight: bold;
-  font-style: oblique;
-  font-family: cursive;
+  
   color: #525252;
   font-size: 45px;
 

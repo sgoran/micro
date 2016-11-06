@@ -4,21 +4,8 @@
         <meta charset="UTF-8">
         <title>Document</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <script src="../Micro.js"></script>
-        <script src="../Pubsub.js"></script>
-        <script src="../Router.js"></script>
-        <script src="../Tpl.js"></script>
-
-        <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
-        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-
-        <link rel="stylesheet" href="style.css">
-
         <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
-        
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
         
@@ -26,21 +13,27 @@
             <div class="navbar-fixed">
                 <nav>
                     <div class="nav-wrapper">
-                        <a data-activates="navig"  class="button-collapse top-nav full hide-on-large-only"><i class="material-icons">menu</i></a>
+                        <a data-activates="navig"  class="button-collapse top-nav full ">
+                            <i class="material-icons">menu</i>
+                        </a>
+                        <!-- main navigation -->
                         <ul class="right">
-                            <li><a micro-route="/">Guide</a></li>
-                            <li><a micro-route="/api">Docs</a></li>
-                            <li><a micro-route="/examples">Examples</a></li>
-                            <li><a micro-route="/showcase">Showcase</a></li>
+                            <li><a micro-link="/">Guide</a></li>
+                            <li><a micro-link="/docks">Docs</a></li>
+                            <li><a micro-link="/examples">Examples</a></li>
+                            <li><a micro-link="/showcase">Showcase</a></li>
                         </ul>
                     </div>
                 </nav>    
             </div>
+
+            
             <ul id="navig" class="side-nav fixed">          
                 <li class="logo">
                     <h3>MICRO</h3>
                 </li>
                 <li>
+                    <!-- navigation container -->
                     <ul id="subnav">
                         
                     </ul>
@@ -49,11 +42,17 @@
         </header>
         
         <main>
+            <!-- main app container -->
             <div class="col s12 m9 l10" id="app">
-            <a micro-route="/examples"> fdasf asdf</a>
+                
             </div> 
         </main> 
 
+        <script src="../Micro.js"></script>
+        <script src="../Pubsub.js"></script>
+        <script src="../Router.js"></script>
+        <script src="../Tpl.js"></script>
+        <script type="text/javascript" src="jquery_and_materialize.css.js"></script>
 
         <script type="text/javascript">
         
@@ -62,11 +61,11 @@
             $( document ).ready(function(){
                 
                 micro = new Micro({
-                    options: {
+                    config: {
                         enterAnimation: 'fadeIn',
                         tplDir: '/tpl',
                         cache: true,
-                        container: 'app',
+                        container: '#app',
                         on: {
                             beforerender: function(page, params){
                                 // do something here before page render
@@ -76,50 +75,47 @@
                             }
                         }
                     },
-                    pages: [{
-                        match: '/api',
-                        tpl: "api.html",
-                        title: 'Api',
+                    router: [{
+                        match: '/docks',
+                        title: 'Docks',
                         data: {
-                            sample: 'Api'
+                            sample: 'Docks'
                         },
-                        
+                        tpl: [{
+                            src: "docks.html",
+                            enterAnimation: 'fadeInRight'
+                        },
+                        {
+                            src: "docks-nav.html",
+                            container: '#subnav',
+                            enterAnimation: 'fadeInLeft'
+                        }]
                     }, {
-                        name: 'firstPage',
                         match: '/examples',
                         title: 'Examples',
-                        tpl: "examples.html",
                         data: {
                             sample: 'Examples'
                         },
+                        src: "examples.html",
+                        enterAnimation: 'fadeInUp'
                     },{
                         match: '/',
-                        tpl: "guide.html",
+                        src: "guide.html",
                         title: 'Guide',
                         data: {
                             sample: 'Guide'
-                        }
+                        },
+                        tpl: [{
+                            src: "guide.html"
+                        },
+                        {
+                            src: "guide-nav.html",
+                            container: '#subnav'
+                        }]
                     },{
                         match: '/showcase',
-                        tpl: "showcase.html",
+                        src: "showcase.html",
                         title: 'Showcase'
-                    }]
-            
-                });
-                                    
-                micro2  = new Micro({
-                    options: {
-                        enterAnimation: 'fadeInLeft',
-                        tplDir: '/tpl',
-                        container: 'subnav',
-                        cache: true
-                    },
-                    pages: [{
-                            match: '/',
-                            tpl: "guide-nav.html"
-                        },{
-                            match: '/api',
-                            tpl: "docks-nav.html"
                     }]
             
                 });
@@ -129,6 +125,6 @@
             });
                 
         </script>
-
+        
     </body>
     </html>

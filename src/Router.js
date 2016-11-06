@@ -1,9 +1,9 @@
 ;(function (window, document){
     
-    function Router(pages, events){
+    function Router(routes, events){
         
         
-        this.pages = pages;
+        this.routes = routes;
         this.events = events;//= (Micro && Micro['Pubsub']) ? Micro['Pubsub']: false;
         var me = this;
 
@@ -19,7 +19,7 @@
 
             var me = this;
             
-            this.pages && this.pages.forEach(function(page) {
+            this.routes && this.routes.forEach(function(page) {
                 
                 if(me.doesMatch(page))
                     me.events.fire('routeMatch', page);
@@ -70,9 +70,9 @@
         
         path: function(href){
             
-            if(window.location.pathname!=href){
+            if(window.location.pathname!=href)
              history.pushState({page: new Date().getTime()}, '',href);
-            }
+            
             this.invoke();
         },
         
@@ -84,11 +84,5 @@
 
     if(typeof Micro === "function" && Micro.prototype.isMicro)
          Micro['Router'] = Router;
-    else if ( typeof module != 'undefined' && module.exports )
-	    module.exports = Router;
-    else if( typeof define == 'function' && define.amd )
-        define( function () { return Router; }); 
-    else
-        window.Router = Router;
 
 }(window, document));
