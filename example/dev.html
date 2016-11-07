@@ -62,12 +62,12 @@
                 
                 micro = new Micro({
                     config: {
-                        enterAnimation: 'fadeIn',
-                        animationDuration: 0.6,
+                        container: '#app',
                         tplDir: '/tpl',
                         cache: true,
                         linkActiveCls: 'nav-active', // default: micro-link-active 
-                        container: '#app',
+                        enterAnimation: 'fadeIn',
+                        animationDuration: 0.6,
                         on: {
                             beforerender: function(page, params){
                                 // do something here before page render

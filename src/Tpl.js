@@ -24,7 +24,7 @@
         /**
          * Get tpl with XHR and call this.render
          */
-        loadTpl: function(route){
+        load: function(route){
             
             var me = this; 
             this.activeRoute = route;
@@ -103,7 +103,7 @@
             
             var me = this;
             var data = (this.activeRoute.data || this.props.data || {});
-            var source = this.parseTpl(html, data);
+            var source = this.parse(html, data);
 
             this.replaceHtml(source, me.getContainerSelector(path) ); 
 
@@ -150,7 +150,7 @@
          * Mustache replace
          * Should work with nested data/objects like {{data.item}}
          */
-        parseTpl: function(tpl, data) { 
+        parse: function(tpl, data) { 
 
             return tpl.replace((RegExp("{{\\s*([a-z0-9_][.a-z0-9_]*)\\s*}}", "gi")), function (tag, k) {
 

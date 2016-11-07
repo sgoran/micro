@@ -28,9 +28,9 @@
         return {
             id: me.id,
             page: router.path.bind(router),
-            load: tpl.loadTpl.bind(tpl),
+            load: tpl.load.bind(tpl),
             render: tpl.replaceHtml.bind(tpl),
-            compile: tpl.parseTpl.bind(tpl),
+            compile: tpl.parse.bind(tpl),
             setAnimation: function(animation){
                 tpl.props.enterAnimation = animation;
             },
@@ -71,7 +71,7 @@
             var me = this;
 
             me.events.on('routeChange', router.path.bind(router));
-            me.events.on('routeMatch', tpl.loadTpl.bind(tpl));
+            me.events.on('routeMatch', tpl.load.bind(tpl));
            
            // not ok - dont describe well what it does
             var setAppEvents = function(config, params, event){
