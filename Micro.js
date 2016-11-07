@@ -15,8 +15,11 @@
         var router = new Micro.Router(this.props.router, this.events);
         var tpl = new Micro.Tpl(this.props.config, this.events);
         
+        this.setAnimationDuration();
         this.setListeners();
         this.initEventsLogic(router, tpl);
+
+        // run
         router.invoke();
 
         var me = this;
@@ -155,6 +158,25 @@
 
         },
 
+        /**
+         * Change .animated animation-duration
+         * this enables user to set it manually
+         */
+        setAnimationDuration: function(){
+
+            var duration = this.props.config.animationDuration;
+
+            if(this.props.config.enterAnimation && this.props.config.animationDuration){
+             
+                var style = document.createElement("style");
+                style.type = 'text/css';
+                style.appendChild(document.createTextNode('.animated{animation-duration: '+duration+'s !important; -webkit-animation-duration: '+duration+'s !important; }'));
+                document.head.appendChild(style);    
+
+            }
+
+        },
+        
         /**
          * Some helpers
          */
