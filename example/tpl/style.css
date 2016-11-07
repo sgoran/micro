@@ -1,9 +1,9 @@
 @import url(https://fonts.googleapis.com/css?family=Arimo:400,400italic,700,700italic);
 @import url(https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css);
 @import url(http://fonts.googleapis.com/icon?family=Material+Icons);
-.animated{
-  /*-webkit-animation-duration: 0.6s !important;
-  animation-duration: 0.6s !important;*/
+
+.micro-active{
+    background-color: #d2d2d2;
 }
 nav{
     background-color: #ffffff !important;

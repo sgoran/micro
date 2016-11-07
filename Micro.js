@@ -73,6 +73,7 @@
             me.events.on('routeChange', router.path.bind(router));
             me.events.on('routeMatch', tpl.loadTpl.bind(tpl));
            
+           // not ok - dont describe well what it does
             var setAppEvents = function(config, params, event){
                 var page = config.page;
                 if(page.on && typeof page.on[event] === 'function')
@@ -83,7 +84,7 @@
                     globalOptions.on[event](config, params)
             };
         
-            me.events.on('beforerender', function(config, params){
+            me.events.on('beforerender', function(config, params){ 
                 var title = config.page.title;
                 window.document.title = (title ? title : me.defaultTile);
                 setAppEvents(config, params, 'beforerender');
@@ -91,7 +92,7 @@
 
             me.events.on('render', function(config, params){
                 setAppEvents(config, params, 'render');
-                me.setListeners(); 
+                me.setListeners(config); 
             });
 
             // back/forward listeners
@@ -125,17 +126,28 @@
          * Set listeners to all micro-links and mark them with Micro instance id
          * in case multiple instance exists
          */
-        setListeners: function(){
+        setListeners: function(config){
 
            var me = this;
 
            setTimeout(function() {
                
               Array.prototype.slice.call(document.querySelectorAll('[micro-link]')).forEach(function(el){
+                
+                // add active link
+                if(config){   
+                    if(config.page.match==el.getAttribute('micro-link'))
+                        el.classList.add('micro-active');
+                    else
+                        el.classList.remove('micro-active');
+                }
+                    
                 if(!el.microId || (el.microId && el.microId.length && el.microId.indexOf(me.id)<0)){
                     
                     if(!el.microId)
                         el.microId = [];
+                        
+                    
 
                     if (el.addEventListener){  
                          el.addEventListener('click', function(e){ 
@@ -176,7 +188,7 @@
             }
 
         },
-        
+
         /**
          * Some helpers
          */
