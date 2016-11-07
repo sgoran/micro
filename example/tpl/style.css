@@ -2,7 +2,10 @@
 @import url(https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css);
 @import url(http://fonts.googleapis.com/icon?family=Material+Icons);
 
-.micro-active{
+.animated{
+   
+}
+.nav-active{
     background-color: #d2d2d2;
 }
 nav{

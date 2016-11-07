@@ -51,15 +51,17 @@
 
         <script type="text/javascript">
         
-            var micro, micro2;
+            var micro;
 
             $( document ).ready(function(){
                 
                 micro = new Micro({
                     config: {
                         enterAnimation: 'fadeIn',
+                        animationDuration: 0.6,
                         tplDir: '/tpl',
                         cache: true,
+                        linkActiveCls: 'nav-active', // default: micro-link-active 
                         container: '#app',
                         on: {
                             beforerender: function(page, params){
@@ -78,12 +80,12 @@
                         },
                         tpl: [{
                             src: "docks.html",
-                            enterAnimation: 'fadeInRight'
+                            enterAnimation: 'fadeInRightBig'
                         },
                         {
                             src: "docks-nav.html",
                             container: '#subnav',
-                            enterAnimation: 'fadeInLeft'
+                            enterAnimation: 'fadeInLeftBig'
                         }]
                     }, {
                         match: '/examples',
@@ -92,7 +94,7 @@
                             sample: 'Examples'
                         },
                         src: "examples.html",
-                        enterAnimation: 'fadeInUp'
+                        enterAnimation: 'fadeInUpBig'
                     },{
                         match: '/',
                         src: "guide.html",

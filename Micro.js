@@ -134,20 +134,23 @@
                
               Array.prototype.slice.call(document.querySelectorAll('[micro-link]')).forEach(function(el){
                 
-                // add active link
-                if(config){   
-                    if(config.page.match==el.getAttribute('micro-link'))
-                        el.classList.add('micro-active');
-                    else
-                        el.classList.remove('micro-active');
-                }
+                // add / remove active link
+                if(config){
                     
+                    var linkActiveCls = me.props.config.linkActiveCls || 'micro-link-active',
+                        active = config.page.match==el.getAttribute('micro-link');
+
+                    el.classList.toggle(linkActiveCls, active);
+
+                }
+                                        
+                
+                // don't set listeners if el has microId already    
                 if(!el.microId || (el.microId && el.microId.length && el.microId.indexOf(me.id)<0)){
                     
                     if(!el.microId)
                         el.microId = [];
                         
-                    
 
                     if (el.addEventListener){  
                          el.addEventListener('click', function(e){ 
@@ -163,6 +166,7 @@
                     el.microId.push(me.id);
 
                 }
+
             }); 
 
            }, 0);
@@ -171,8 +175,8 @@
         },
 
         /**
-         * Change .animated animation-duration
-         * this enables user to set it manually
+         * Change .animated animation-duration property
+         * User can set it manually
          */
         setAnimationDuration: function(){
 

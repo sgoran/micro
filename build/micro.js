@@ -15,8 +15,11 @@
         var router = new Micro.Router(this.props.router, this.events);
         var tpl = new Micro.Tpl(this.props.config, this.events);
         
+        this.setAnimationDuration();
         this.setListeners();
         this.initEventsLogic(router, tpl);
+
+        // run
         router.invoke();
 
         var me = this;
@@ -70,6 +73,7 @@
             me.events.on('routeChange', router.path.bind(router));
             me.events.on('routeMatch', tpl.loadTpl.bind(tpl));
            
+           // not ok - dont describe well what it does
             var setAppEvents = function(config, params, event){
                 var page = config.page;
                 if(page.on && typeof page.on[event] === 'function')
@@ -80,7 +84,7 @@
                     globalOptions.on[event](config, params)
             };
         
-            me.events.on('beforerender', function(config, params){
+            me.events.on('beforerender', function(config, params){ 
                 var title = config.page.title;
                 window.document.title = (title ? title : me.defaultTile);
                 setAppEvents(config, params, 'beforerender');
@@ -88,7 +92,7 @@
 
             me.events.on('render', function(config, params){
                 setAppEvents(config, params, 'render');
-                me.setListeners(); 
+                me.setListeners(config); 
             });
 
             // back/forward listeners
@@ -122,17 +126,31 @@
          * Set listeners to all micro-links and mark them with Micro instance id
          * in case multiple instance exists
          */
-        setListeners: function(){
+        setListeners: function(config){
 
            var me = this;
 
            setTimeout(function() {
                
               Array.prototype.slice.call(document.querySelectorAll('[micro-link]')).forEach(function(el){
+                
+                // add / remove active link
+                if(config){
+                    
+                    var linkActiveCls = me.props.config.linkActiveCls || 'micro-link-active',
+                        active = config.page.match==el.getAttribute('micro-link');
+
+                    el.classList.toggle(linkActiveCls, active);
+
+                }
+                                        
+                
+                // don't set listeners if el has microId already    
                 if(!el.microId || (el.microId && el.microId.length && el.microId.indexOf(me.id)<0)){
                     
                     if(!el.microId)
                         el.microId = [];
+                        
 
                     if (el.addEventListener){  
                          el.addEventListener('click', function(e){ 
@@ -148,10 +166,30 @@
                     el.microId.push(me.id);
 
                 }
+
             }); 
 
            }, 0);
             
+
+        },
+
+        /**
+         * Change .animated animation-duration property
+         * User can set it manually
+         */
+        setAnimationDuration: function(){
+
+            var duration = this.props.config.animationDuration;
+
+            if(this.props.config.enterAnimation && this.props.config.animationDuration){
+             
+                var style = document.createElement("style");
+                style.type = 'text/css';
+                style.appendChild(document.createTextNode('.animated{animation-duration: '+duration+'s !important; -webkit-animation-duration: '+duration+'s !important; }'));
+                document.head.appendChild(style);    
+
+            }
 
         },
 
