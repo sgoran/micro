@@ -19,7 +19,7 @@
         this.setListeners();
         this.initEventsLogic(router, tpl);
 
-        // run
+        // observe current route
         router.invoke();
 
         var me = this;
@@ -60,6 +60,11 @@
        eventsAdded: false,
 
        /**
+        * Adds class to clicked link
+        */
+       defaultActiveLinkCls: 'micro-link-active',
+
+       /**
         * Set observable logic betwen modules
         * For example route match will trigger load template etc
         */
@@ -72,35 +77,34 @@
 
             me.events.on('routeChange', router.path.bind(router));
             me.events.on('routeMatch', tpl.load.bind(tpl));
-           
-           // not ok - dont describe well what it does
-            var setAppEvents = function(config, params, event){
-                var page = config.page;
-                if(page.on && typeof page.on[event] === 'function')
-                    page.on[event](page, params)
-
-                var globalOptions = me.props.config;
-                if(globalOptions.on && typeof globalOptions.on[event] === 'function')
-                    globalOptions.on[event](config, params)
-            };
-        
-            me.events.on('beforerender', function(config, params){ 
-                var title = config.page.title;
-                window.document.title = (title ? title : me.defaultTile);
-                setAppEvents(config, params, 'beforerender');
+                       
+            me.events.on('beforerender', function(config){
+                window.document.title = (config.route.title ? config.route.title : me.defaultTile);
+                me.fireUserEvent(config, 'beforerender');
             });
 
-            me.events.on('render', function(config, params){
-                setAppEvents(config, params, 'render');
-                me.setListeners(config); 
+            me.events.on('render', function(config){
+                me.fireUserEvent(config, 'render');
+                me.setListeners(config.route);
             });
 
             // back/forward listeners
             if (window.addEventListener)  
                 window.addEventListener('popstate', router.invoke.bind(router));
             
-
             me.eventsAdded = true;
+
+       },
+        
+       /**
+        * fire config.on events if user is listening  
+        */ 
+       fireUserEvent: function(options, event){
+            
+            var globalEvents = this.props.config.on;
+
+            if(globalEvents && typeof globalEvents[event] === 'function')
+                globalEvents[event](options.route, options.tpl);
 
        },
 
@@ -126,7 +130,7 @@
          * Set listeners to all micro-links and mark them with Micro instance id
          * in case multiple instance exists
          */
-        setListeners: function(config){
+        setListeners: function(route){
 
            var me = this;
 
@@ -135,10 +139,10 @@
               Array.prototype.slice.call(document.querySelectorAll('[micro-link]')).forEach(function(el){
                 
                 // add / remove active link
-                if(config){
+                if(route){
                     
-                    var linkActiveCls = me.props.config.linkActiveCls || 'micro-link-active',
-                        active = config.page.match==el.getAttribute('micro-link');
+                    var linkActiveCls = me.props.config.linkActiveCls || me.defaultActiveLinkCls,
+                        active = (route.match==el.getAttribute('micro-link'));
 
                     el.classList.toggle(linkActiveCls, active);
 
@@ -194,7 +198,7 @@
         },
 
         /**
-         * Some helpers
+         * Helpers
          */
         utils: (function(){
 

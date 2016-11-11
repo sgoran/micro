@@ -27,15 +27,11 @@
         load: function(route){
             
             var me = this; 
-            this.activeRoute = route;
-            
-            me.events.fire('beforerender', {
-                page: this.activeRoute
-            });
-            
+            me.activeRoute = route;
+
             if(Array.isArray(route.tpl))
-                route.tpl.forEach(function(page){
-                    me.loadFile(page);
+                route.tpl.forEach(function(tpl){
+                    me.loadFile(tpl);
                 });
             else
                 me.loadFile(route);
@@ -44,32 +40,35 @@
 
         },
 
-        loadFile: function(file){
-
-            var me = this;
-            me.activeTpl = file;
+        loadFile: function(tpl){
             
+            var me = this;
+    
+            me.events.fire('beforerender', {
+                route: me.activeRoute,
+                tpl: tpl
+            });
+
             // treba dovrsiti ovo za animacije malo bolje
             // tako da radi dobro i kad nije fade efekat
-            var container = document.querySelector(me.getContainerSelector(file));
+            var container = document.querySelector(me.getContainerSelector(tpl));
             container.className = "";
             container.style.opacity = 0;
 
-            if(me.isRouteCached(file)){
-                me.render(me.tplCache[file.src], file);
+            if(me.isRouteCached(tpl)){
+                me.render(me.tplCache[tpl.src], tpl);
                 return;
             }
 
-            tplFile = me.props.tplDir+'/'+file.src;
-
+            var tplFile = me.props.tplDir+'/'+tpl.src;
             var oReq = new XMLHttpRequest();
 
             oReq.addEventListener("load", function(){
                 
-                if(me.props.cache || file.cache)
-                    me.cacheRoute(file, oReq.responseText);
+                if(me.props.cache || tpl.cache)
+                    me.cacheRoute(tpl, oReq.responseText);
 
-                me.render(oReq.responseText, file);
+                me.render(oReq.responseText, tpl);
 
             });
 
@@ -78,71 +77,55 @@
             oReq.send();
         },
 
-        getContainerSelector: function(tplObj){
-            return tplObj.container || this.props.container
+        getContainerSelector: function(tpl){
+            return tpl.container || this.props.container
         },
         /**
          * Returns boolean
          */
-        isRouteCached: function(page){
-            return this.tplCache && this.tplCache.hasOwnProperty(page.src);
+        isRouteCached: function(tpl){
+            return this.tplCache && this.tplCache.hasOwnProperty(tpl.src);
         },
 
         /**
          * Cache tpl
          */
-        cacheRoute: function(page, data){
-            this.tplCache[page.tpl] = data;
+        cacheRoute: function(tpl, data){
+            this.tplCache[tpl.src] = data;
         },
         
         /**
          * Main render function 
-         * treba proslijedititi jos parametara
          */
-        render: function(html, path){ 
+        render: function(html, tpl){ 
             
             var me = this;
+            
             var data = (this.activeRoute.data || this.props.data || {});
             var source = this.parse(html, data);
 
-            this.replaceHtml(source, me.getContainerSelector(path) ); 
+            this.replaceHtml(source, me.getContainerSelector(tpl) ); 
+            this.animate(tpl);    
 
             setTimeout(function(){
                 me.events.fire('render', {
-                    page: me.activeRoute
+                    route: me.activeRoute,
+                    tpl: tpl
                 });
             }, 0);
-            
-            this.animate(path);    
 
         },
 
         /**
-         * Should be faster than innerHTML
+         * need to finish this
          */
-        replaceHtml: function(html, selector) { 
+        replaceHtml: function(html, selector) {
+
             var me = this;
             //document.getElementById(me.props.container).className = "animated fadeOut";
+            document.querySelector(selector).innerHTML = html;    
             
-            
-            //setTimeout(function() {
-                
-                document.querySelector(selector).innerHTML = html;    
-            //}, 1300);
-            
-
             return;
-
-
-
-            // var oldEl = (typeof this.props.container === "string" ? document.getElementById(this.props.container) : this.props.container);
-            // if(oldEl==null) 
-            //     return;
-                
-            // var newEl = oldEl.cloneNode(false);
-            
-            // newEl.innerHTML = html;
-            // oldEl.parentNode.replaceChild(newEl, oldEl);
 
         },
 
@@ -168,14 +151,42 @@
 
         /**
          * Executes after tpl is added
+         * Available animations are 
+            'fadeIn'
+            'fadeInDown'
+            'fadeInDownBig'
+            'fadeInLeft'
+            'fadeInLeftBig'
+            'fadeInRight'
+            'fadeInRightBig'
+            'fadeInUp'
+            'fadeInUpBig
          */
-        animate: function(path){
+        animate: function(tpl){
+            var animations = [
+            'fadeIn', 
+            'fadeInDown',
+            'fadeInDownBig',
+            'fadeInLeft',
+            'fadeInLeftBig',
+            'fadeInRight',
+            'fadeInRightBig',
+            'fadeInUp',
+            'fadeInUpBig'
+            ];
             var me = this;
+
             setTimeout(function(){
-                var animation = path.enterAnimation ||  me.props.enterAnimation;
-                if(animation)
-                    document.querySelector(me.getContainerSelector(path)).className = "animated "+animation;
+                
+                var animation = tpl.enterAnimation ||  me.props.enterAnimation;
+                
+                if(animation && animations.indexOf(animation)>-1)
+                    document.querySelector(me.getContainerSelector(tpl)).className = "animated "+animation;
+                else
+                    document.querySelector(me.getContainerSelector(tpl)).style.opacity = 1;
+
             }, 0);
+            
         },
 
         /**

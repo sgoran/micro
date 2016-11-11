@@ -19,10 +19,10 @@
 
             var me = this;
             
-            this.routes && this.routes.forEach(function(page) {
+            this.routes && this.routes.forEach(function(route) {
                 
-                if(me.doesMatch(page))
-                    me.events.fire('routeMatch', page);
+                if(me.doesMatch(route))
+                    me.events.fire('routeMatch', route);
                 
             });
             
@@ -34,25 +34,25 @@
          * Check if page object match
          * @to-do: This must be done much better
          */
-        doesMatch: function(page){
+        doesMatch: function(route){
 
             var urlPath = window.location.pathname;
             var match = false;
 
-            if(!page.match){
-                this.log(page.route+" rule has no callback");
+            if(!route.match){
+                this.log(route.route+' rule has no "match" rule');
                 return match;
             }
                 
 
-            var matchParams = page.match.split('/');
+            var matchParams = route.match.split('/');
             matchParams.shift();
 
             var urlParams = urlPath.split('/');
             urlParams.shift();
             
-            // should match exact route including "/" or "/page" etc
-            if(urlPath==page.match)
+            // should match exact route including "/" or "/route" etc
+            if(urlPath==route.match)
                 match = true;
             
             

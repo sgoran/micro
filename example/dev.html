@@ -66,16 +66,18 @@
                         tplDir: '/tpl',
                         cache: true,
                         linkActiveCls: 'nav-active', // default: micro-link-active 
-                        enterAnimation: 'fadeIn',
+                        enterAnimation: 'fadeIn', // available 
                         animationDuration: 0.6,
                         on: {
-                            beforerender: function(page, params){
+                            beforerender: function(route, tpl){
+                                //console.log('before-render', route, tpl);
                                 // do something here before page render
                             },
-                            render: function(page, params){
+                            render: function(route, tpl){
+                                //console.log('render ', route, tpl);
                                 // do something here after page render
                             }
-                        }
+                        },
                     },
                     router: [{
                         match: '/docks',
@@ -84,13 +86,12 @@
                             sample: 'Docks'
                         },
                         tpl: [{
-                            src: "docks.html",
-                            enterAnimation: 'fadeInRightBig'
+                            src: "docks.html"
                         },
                         {
                             src: "docks-nav.html",
-                            container: '#subnav',
-                            enterAnimation: 'fadeInLeftBig'
+                            enterAnimation: 'fadeIn',
+                            container: '#subnav'
                         }]
                     }, {
                         match: '/examples',
@@ -98,11 +99,9 @@
                         data: {
                             sample: 'Examples'
                         },
-                        src: "examples.html",
-                        enterAnimation: 'fadeInUpBig'
+                        src: "examples.html"
                     },{
                         match: '/',
-                        src: "guide.html",
                         title: 'Guide',
                         data: {
                             sample: 'Guide'
@@ -112,6 +111,7 @@
                         },
                         {
                             src: "guide-nav.html",
+                            enterAnimation: 'fadeInLeft',
                             container: '#subnav'
                         }]
                     },{
