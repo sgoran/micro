@@ -19,7 +19,7 @@
         this.setListeners();
         this.initEventsLogic(router, tpl);
 
-        // run
+        // observe current route
         router.invoke();
 
         var me = this;
@@ -28,9 +28,9 @@
         return {
             id: me.id,
             page: router.path.bind(router),
-            load: tpl.loadTpl.bind(tpl),
+            load: tpl.load.bind(tpl),
             render: tpl.replaceHtml.bind(tpl),
-            compile: tpl.parseTpl.bind(tpl),
+            compile: tpl.parse.bind(tpl),
             setAnimation: function(animation){
                 tpl.props.enterAnimation = animation;
             },
@@ -60,6 +60,11 @@
        eventsAdded: false,
 
        /**
+        * Adds class to clicked link
+        */
+       defaultActiveLinkCls: 'micro-link-active',
+
+       /**
         * Set observable logic betwen modules
         * For example route match will trigger load template etc
         */
@@ -71,36 +76,35 @@
             var me = this;
 
             me.events.on('routeChange', router.path.bind(router));
-            me.events.on('routeMatch', tpl.loadTpl.bind(tpl));
-           
-           // not ok - dont describe well what it does
-            var setAppEvents = function(config, params, event){
-                var page = config.page;
-                if(page.on && typeof page.on[event] === 'function')
-                    page.on[event](page, params)
-
-                var globalOptions = me.props.config;
-                if(globalOptions.on && typeof globalOptions.on[event] === 'function')
-                    globalOptions.on[event](config, params)
-            };
-        
-            me.events.on('beforerender', function(config, params){ 
-                var title = config.page.title;
-                window.document.title = (title ? title : me.defaultTile);
-                setAppEvents(config, params, 'beforerender');
+            me.events.on('routeMatch', tpl.load.bind(tpl));
+                       
+            me.events.on('beforerender', function(config){
+                window.document.title = (config.route.title ? config.route.title : me.defaultTile);
+                me.fireUserEvent(config, 'beforerender');
             });
 
-            me.events.on('render', function(config, params){
-                setAppEvents(config, params, 'render');
-                me.setListeners(config); 
+            me.events.on('render', function(config){
+                me.fireUserEvent(config, 'render');
+                me.setListeners(config.route);
             });
 
             // back/forward listeners
             if (window.addEventListener)  
                 window.addEventListener('popstate', router.invoke.bind(router));
             
-
             me.eventsAdded = true;
+
+       },
+        
+       /**
+        * fire config.on events if user is listening  
+        */ 
+       fireUserEvent: function(options, event){
+            
+            var globalEvents = this.props.config.on;
+
+            if(globalEvents && typeof globalEvents[event] === 'function')
+                globalEvents[event](options.route, options.tpl);
 
        },
 
@@ -126,7 +130,7 @@
          * Set listeners to all micro-links and mark them with Micro instance id
          * in case multiple instance exists
          */
-        setListeners: function(config){
+        setListeners: function(route){
 
            var me = this;
 
@@ -135,10 +139,10 @@
               Array.prototype.slice.call(document.querySelectorAll('[micro-link]')).forEach(function(el){
                 
                 // add / remove active link
-                if(config){
+                if(route){
                     
-                    var linkActiveCls = me.props.config.linkActiveCls || 'micro-link-active',
-                        active = config.page.match==el.getAttribute('micro-link');
+                    var linkActiveCls = me.props.config.linkActiveCls || me.defaultActiveLinkCls,
+                        active = (route.match==el.getAttribute('micro-link'));
 
                     el.classList.toggle(linkActiveCls, active);
 
@@ -194,7 +198,7 @@
         },
 
         /**
-         * Some helpers
+         * Helpers
          */
         utils: (function(){
 
@@ -298,10 +302,10 @@
 
             var me = this;
             
-            this.routes && this.routes.forEach(function(page) {
+            this.routes && this.routes.forEach(function(route) {
                 
-                if(me.doesMatch(page))
-                    me.events.fire('routeMatch', page);
+                if(me.doesMatch(route))
+                    me.events.fire('routeMatch', route);
                 
             });
             
@@ -313,25 +317,25 @@
          * Check if page object match
          * @to-do: This must be done much better
          */
-        doesMatch: function(page){
+        doesMatch: function(route){
 
             var urlPath = window.location.pathname;
             var match = false;
 
-            if(!page.match){
-                this.log(page.route+" rule has no callback");
+            if(!route.match){
+                this.log(route.route+' rule has no "match" rule');
                 return match;
             }
                 
 
-            var matchParams = page.match.split('/');
+            var matchParams = route.match.split('/');
             matchParams.shift();
 
             var urlParams = urlPath.split('/');
             urlParams.shift();
             
-            // should match exact route including "/" or "/page" etc
-            if(urlPath==page.match)
+            // should match exact route including "/" or "/route" etc
+            if(urlPath==route.match)
                 match = true;
             
             
@@ -391,18 +395,14 @@
         /**
          * Get tpl with XHR and call this.render
          */
-        loadTpl: function(route){
+        load: function(route){
             
             var me = this; 
-            this.activeRoute = route;
-            
-            me.events.fire('beforerender', {
-                page: this.activeRoute
-            });
-            
+            me.activeRoute = route;
+
             if(Array.isArray(route.tpl))
-                route.tpl.forEach(function(page){
-                    me.loadFile(page);
+                route.tpl.forEach(function(tpl){
+                    me.loadFile(tpl);
                 });
             else
                 me.loadFile(route);
@@ -411,32 +411,35 @@
 
         },
 
-        loadFile: function(file){
-
-            var me = this;
-            me.activeTpl = file;
+        loadFile: function(tpl){
             
+            var me = this;
+    
+            me.events.fire('beforerender', {
+                route: me.activeRoute,
+                tpl: tpl
+            });
+
             // treba dovrsiti ovo za animacije malo bolje
             // tako da radi dobro i kad nije fade efekat
-            var container = document.querySelector(me.getContainerSelector(file));
+            var container = document.querySelector(me.getContainerSelector(tpl));
             container.className = "";
             container.style.opacity = 0;
 
-            if(me.isRouteCached(file)){
-                me.render(me.tplCache[file.src], file);
+            if(me.isRouteCached(tpl)){
+                me.render(me.tplCache[tpl.src], tpl);
                 return;
             }
 
-            tplFile = me.props.tplDir+'/'+file.src;
-
+            var tplFile = me.props.tplDir+'/'+tpl.src;
             var oReq = new XMLHttpRequest();
 
             oReq.addEventListener("load", function(){
                 
-                if(me.props.cache || file.cache)
-                    me.cacheRoute(file, oReq.responseText);
+                if(me.props.cache || tpl.cache)
+                    me.cacheRoute(tpl, oReq.responseText);
 
-                me.render(oReq.responseText, file);
+                me.render(oReq.responseText, tpl);
 
             });
 
@@ -445,71 +448,55 @@
             oReq.send();
         },
 
-        getContainerSelector: function(tplObj){
-            return tplObj.container || this.props.container
+        getContainerSelector: function(tpl){
+            return tpl.container || this.props.container
         },
         /**
          * Returns boolean
          */
-        isRouteCached: function(page){
-            return this.tplCache && this.tplCache.hasOwnProperty(page.src);
+        isRouteCached: function(tpl){
+            return this.tplCache && this.tplCache.hasOwnProperty(tpl.src);
         },
 
         /**
          * Cache tpl
          */
-        cacheRoute: function(page, data){
-            this.tplCache[page.tpl] = data;
+        cacheRoute: function(tpl, data){
+            this.tplCache[tpl.src] = data;
         },
         
         /**
          * Main render function 
-         * treba proslijedititi jos parametara
          */
-        render: function(html, path){ 
+        render: function(html, tpl){ 
             
             var me = this;
+            
             var data = (this.activeRoute.data || this.props.data || {});
-            var source = this.parseTpl(html, data);
+            var source = this.parse(html, data);
 
-            this.replaceHtml(source, me.getContainerSelector(path) ); 
+            this.replaceHtml(source, me.getContainerSelector(tpl) ); 
+            this.animate(tpl);    
 
             setTimeout(function(){
                 me.events.fire('render', {
-                    page: me.activeRoute
+                    route: me.activeRoute,
+                    tpl: tpl
                 });
             }, 0);
-            
-            this.animate(path);    
 
         },
 
         /**
-         * Should be faster than innerHTML
+         * need to finish this
          */
-        replaceHtml: function(html, selector) { 
+        replaceHtml: function(html, selector) {
+
             var me = this;
             //document.getElementById(me.props.container).className = "animated fadeOut";
+            document.querySelector(selector).innerHTML = html;    
             
-            
-            //setTimeout(function() {
-                
-                document.querySelector(selector).innerHTML = html;    
-            //}, 1300);
-            
-
             return;
-
-
-
-            // var oldEl = (typeof this.props.container === "string" ? document.getElementById(this.props.container) : this.props.container);
-            // if(oldEl==null) 
-            //     return;
-                
-            // var newEl = oldEl.cloneNode(false);
-            
-            // newEl.innerHTML = html;
-            // oldEl.parentNode.replaceChild(newEl, oldEl);
 
         },
 
@@ -517,7 +504,7 @@
          * Mustache replace
          * Should work with nested data/objects like {{data.item}}
          */
-        parseTpl: function(tpl, data) { 
+        parse: function(tpl, data) { 
 
             return tpl.replace((RegExp("{{\\s*([a-z0-9_][.a-z0-9_]*)\\s*}}", "gi")), function (tag, k) {
 
@@ -535,14 +522,42 @@
 
         /**
          * Executes after tpl is added
+         * Available animations are 
+            'fadeIn'
+            'fadeInDown'
+            'fadeInDownBig'
+            'fadeInLeft'
+            'fadeInLeftBig'
+            'fadeInRight'
+            'fadeInRightBig'
+            'fadeInUp'
+            'fadeInUpBig
          */
-        animate: function(path){
+        animate: function(tpl){
+            var animations = [
+            'fadeIn', 
+            'fadeInDown',
+            'fadeInDownBig',
+            'fadeInLeft',
+            'fadeInLeftBig',
+            'fadeInRight',
+            'fadeInRightBig',
+            'fadeInUp',
+            'fadeInUpBig'
+            ];
             var me = this;
+
             setTimeout(function(){
-                var animation = path.enterAnimation ||  me.props.enterAnimation;
-                if(animation)
-                    document.querySelector(me.getContainerSelector(path)).className = "animated "+animation;
+                
+                var animation = tpl.enterAnimation ||  me.props.enterAnimation;
+                
+                if(animation && animations.indexOf(animation)>-1)
+                    document.querySelector(me.getContainerSelector(tpl)).className = "animated "+animation;
+                else
+                    document.querySelector(me.getContainerSelector(tpl)).style.opacity = 1;
+
             }, 0);
+            
         },
 
         /**

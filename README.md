@@ -11,6 +11,14 @@ Micro client side router and template loading/mustache library.
 - Before and afterrender events
 - Settings per page or globaly
 
+## Installing
+
+    $ npm install micro-spa
+
+    or by embedding directly on page
+
+    <script src="https://unpkg.com/micro-spa@latest"></script>
+
 ## Running examples
 
   To run examples do the following to install dev dependencies and run the example express server:
@@ -24,45 +32,20 @@ Micro client side router and template loading/mustache library.
 ## API
 
 ```javascript
-  var micro = new Micro({
-                    pages: [{
-                        name: 'firstPage',
-                        match: '/',
-                        enterAnimation: "fadeInDown",
-                        title: 'Section 1',
-                        tpl: "section.html",
-                        data: {
-                            sample: 'SECTION 1'
-                        }
-                    },{
-                        match: '/page',
-                        tpl: "section2.html",
-                        enterAnimation: "fadeInRight",
-                        title: 'Section 2',
-                        data: {
-                            sample: 'SECTION 2'
-                        },
-                        on: {
-                            render: function(page, params){
-                                // do something after render   
-                            }
-                        }
-                    },{
-                        match: '/category/:param',
-                        enterAnimation: "fadeInUp",
-                        tpl: "section3.html",
-                        title: 'Section 3',
-                        data: {
-                            sample: 'SECTION 3'
-                        },
-                        
-                    }],
-                    options:{
-                        enterAnimation: true,
-                        tplDir: '/tpl',
-                        cache: true,
-                        container: 'app'
-                    } 
-                });
-    
+  new Micro({
+            config: {
+                container: '#app',
+                tplDir: '/tpl'
+            },
+            router: [{
+                match: '/',
+                title: 'Home Page',
+                src: "home.html"
+            },{
+                match: '/example',
+                title: 'Example Page',
+                src: "examples.html"
+            }]
+        });
+
     

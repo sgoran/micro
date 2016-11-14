@@ -19,9 +19,8 @@
                         <!-- main navigation -->
                         <ul class="right">
                             <li><a micro-link="/">Guide</a></li>
-                            <li><a micro-link="/docks">Docs</a></li>
                             <li><a micro-link="/examples">Examples</a></li>
-                            <li><a micro-link="/showcase">Showcase</a></li>
+                            <!--<li><a micro-link="/showcase">Showcase</a></li>-->
                         </ul>
                     </div>
                 </nav>    
@@ -80,27 +79,6 @@
                         },
                     },
                     router: [{
-                        match: '/docks',
-                        title: 'Docks',
-                        data: {
-                            sample: 'Docks'
-                        },
-                        tpl: [{
-                            src: "docks.html"
-                        },
-                        {
-                            src: "docks-nav.html",
-                            enterAnimation: 'fadeIn',
-                            container: '#subnav'
-                        }]
-                    }, {
-                        match: '/examples',
-                        title: 'Examples',
-                        data: {
-                            sample: 'Examples'
-                        },
-                        src: "examples.html"
-                    },{
                         match: '/',
                         title: 'Guide',
                         data: {
@@ -115,9 +93,19 @@
                             container: '#subnav'
                         }]
                     },{
-                        match: '/showcase',
-                        src: "showcase.html",
-                        title: 'Showcase'
+                        match: '/examples',
+                        title: 'Examples',
+                        data: {
+                            sample: 'Examples'
+                        },
+                        tpl: [{
+                            src: "examples.html"
+                        },
+                        {
+                            src: "guide-nav.html",
+                            enterAnimation: 'fadeInLeft',
+                            container: '#subnav'
+                        }]
                     }]
             
                 });
