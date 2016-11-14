@@ -7,7 +7,7 @@ process.argv.forEach((val, index) => {
 });
 
 app.get('/*',function(request, response, next) {
-  if((/\.(gif|jpg|jpeg|png|js|css|html)$/i).test(request.url))
+  if((/\.(gif|jpg|ico|jpeg|png|js|css|html)$/i).test(request.url))
     next();
   else
     response.sendFile(__dirname+'/example/'+file+'.html');

@@ -5,12 +5,20 @@
 strong {
   font-weight: bold;
 }
-
+.required{
+    width: 16px; 
+    float: right;
+    color: green;
+}
+pre{
+    background-color: #F9F9F9;
+    border-radius: 3px;
+}
 h4, p, div{
     color: #525252;
 }
 .nav-active{
-    background-color: #d2d2d2;
+    background-color: #F5F5F5;
 }
 nav{
     background-color: #ffffff !important;
@@ -26,12 +34,9 @@ html, body{
     font-family: 'Arimo', sans-serif;
 }
 ul.side-nav.fixed li.logo {
-   text-align: center;
-  /* margin-top: 32px; */
-  /* margin-bottom: 80px; */
-  height: 172px;
-  padding: 23px;
-  /*background: url(micro.jpg);*/
+    text-align: center;
+    height: 172px;
+    padding: 23px;
 }
 #nav-mobile li.search {
   position: absolute;
@@ -42,8 +47,12 @@ ul.side-nav.fixed li.logo {
   padding: 1px 0 0 0;
   z-index: 2;
 }
-nav{
-    background-color: #00695c; 
+a{
+    cursor: pointer
+}
+
+#subnav{
+    margin-top: 18px;
 }
 #nav-mobile li.search .search-wrapper {
   margin: 0 12px;
@@ -54,12 +63,12 @@ main{
     padding-left: 300px;
 }
 .logo{
-    padding-top: 52px!important;
+    padding-top: 42px!important;
+    background-color: #4285f4;
 }
 .logo h3{
   font-weight: bold;
-  
-  color: #525252;
+  color: #fff;
   font-size: 45px;
 
 }

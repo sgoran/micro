@@ -1,91 +1,199 @@
 
 <div class="col s10 container">
-    <h4 class="header">Intro</h4>
+    <h4 class="header" id="intro">Intro</h4>
     <p class=""> 
-        Micro is simple 4KB client side library. It has no dependencies, so plain javascript that works across all browsers.
-        Main purpose is to turn any "hard-reload" website to Ajax driven <a href="https://en.wikipedia.org/wiki/Single-page_application" target="_BLANK">SPA</a>.
-        It fit's fine with any client side libraries like bootstrap, materialize etc. But with dynamic sites too. It's environment agnostic and very suitable to "ajaxify"" existing projects.<br><br> 
+        Micro is simple, 4KB client side library. It's writen in plain javascript with no dependencies.
+        Main purpose is to turn any "hard-reload" website to Ajax driven
+         <a href="https://en.wikipedia.org/wiki/Single-page_application" target="_BLANK">SPA</a> without 
+         leaarning React, Angular, Polymer, Vue or similar.
+        <br>Micro combines very fine with any client side libraries like bootstrap, materialize etc, and with dynamic sites too.
+        <br> 
+        It's environment agnostic and very suitable to "ajaxify" existing projects within several minutes.<br><br> 
         
-        Micro is combined from Router and Tpl modules.<br><br>
+        Library is a combination of internal Router and Tpl modules.<br><br>
 
-        <strong>Router</strong> is a client side module based on history api. That means you can use "pretty" links with your application by writing url's like
-        <code class="language-markup">http://www.example.com/page/subpage</code>. <br><br> 
-
+        <strong>Router</strong> is based on <a target="_BLANK" href="https://developer.mozilla.org/en/docs/Web/API/History">history</a> api. 
+        That means you can
+        
+        <ul>
+            <li>- Use "pretty" url's withing your application, for example <code class="language-markup">http://www.example.com/page/subpage</code></li>
+            <li>- Navigate you application without page reload</li>
+        </ul>
+         <br>
 
         <strong>Tpl</strong> module has features like
         <ul>
             <li>- Loading templates</li>
-            <li>- Basic data tpl data forwarding</li>
+            <li>- Basic Tpl data injection</li>
             <li>- Enter animations</li>
         </ul>
 
-        We will see in the last section and on examples page how you can easily combine templates with routes to created 
-        smoth and user friendly single page website.
+        <br>
+        <strong>Other cool features are</strong>
+        <ul>
+            <li>- Tpl caching (speeds up web app a lot, saves bandwith)</li>
+            <li>- Loading multiple different parts of application per route</li>
+            <li>- Animaton duration</li>
+            <li>- Events</li>
+            <li>- Link binding</li>
+            <li>- And more...</li>
+        </ul>
+
+        We will see in the <a onclick="scrollNav('hello');">Hello World</a> section and on <a micro-link="/examples">examples</a> page how you can easily 
+        split your appliacation into templates and map those to routes 
+        in order to created smoth and user friendly single page website.
 
     </p>
-    <h4 class="header">Installation</h4>
-    <pre>
-    $ npm install micro-spa
-    </pre>
+
+    <br>
+    <h4 class="header" id="install">Installation</h4>
+
+
+    <pre>$ npm install micro-spa</pre>
 
     <p>or by embedding directly on page</p>
-    <pre>
-    <span><</span>script src="https://unpkg.com/micro-spa@latest"<span>></span><span><</span>/script<span>></span>
-    </pre>
+    <pre><span><</span>script src="https://unpkg.com/micro-spa@latest"<span>></span><span><</span>/script<span>></span></pre>
     <p>you can also clone <code> https://github.com/sgoran/micro.git </code> to try out examples</p>
    
-    
-    <h4 class="header">How to use it?</h4>
+    <br>
+    <h4 class="header" id="hello">Minimal application</h4>
     <p>You need two things</p>
     <u>1. instruct your server to redirect all non-existing file and folder request to your index file</u>
     <p><b>Apache example</b>
-        <pre>
-        <IfModule mod_rewrite.c>
-        RewriteEngine On
-        RewriteBase /
-        RewriteRule ^index\.php$ - [L]
-        RewriteCond %{REQUEST_FILENAME} !-f
-        RewriteCond %{REQUEST_FILENAME} !-d
-        RewriteRule . /index.php [L]
-        </IfModule>
-        </pre>
+    <pre>
+
+    RewriteEngine On
+    RewriteBase /
+    RewriteRule ^index\.php$ - [L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . /index.php [L]
+    </pre>
     </p>
     <p><b>Ngnix example</b>
-        <pre>
-        location / {
-            try_files   $uri $uri/ /index.php?$args;
-        }
-        </pre>
+    <pre>
+
+    location / {
+        try_files   $uri $uri/ /index.php?$args;
+    }
+    </pre>
     </p>
     <p><b>Express example</b>
         <p>
             You will probably write your own logic with few lines or user some
-            middleware. You can check my server <a href="https://github.com/sgoran/micro/blob/master/server.js" target"_BLANK">here</a> 
+            middleware. You can check my server <a href="https://github.com/sgoran/micro/blob/master/server.js" target="_BLANK">here</a> 
             
         </p>
     </p>
 
-    <u>2. Create Micro object with few properties</u>
-    <p>Simples usage is</p>
+    <u>2. Instantiate Micro</u>
+    <p>Simplest usage is</p>
     <pre>
-        new Micro({
-            config: {
-                container: '#app',
-                tplDir: '/tpl'
-            },
-            router: [{
-                match: '/',
-                title: 'Home Page',
-                src: "home.html"
-            },{
-                match: '/example',
-                title: 'Example Page',
-                src: "examples.html"
-            }]
-        });
+
+    new Micro({
+        config: {
+            container: '#app',
+            tplDir: '/tpl'
+        },
+        router: [{
+            match: '/',
+            title: 'Home Page',
+            src: "home.html"
+        },{
+            match: '/example',
+            title: 'Example Page',
+            src: "examples.html"
+        }]
+    });
     </pre>
     <p>
 
-        Ror more check <a micro-link="/examples">Examples</a> page.
+        For more check <a micro-link="/examples">Examples</a> page.
     </p>
-    <p><br></p>
+    <br>
+    <h4 class="header" id="api">API</h4>
+
+    Settings are provided via two objects. <br>
+
+    <p><b>config: {}</b> - Here we add some global options like container ID, animations and similar.</p>
+    <p><b>routes: []</b> - We add routes as objects withing this array. We can load separate tpl files to separate 
+    containers within one route match.</p>
+
+    <p>Settings marked with <span style="color: green;">*</span> are required options.</p>
+
+    <br>
+    <h5 class="header" id="api">Config</h5>
+
+    <pre id="cont">container: String <div class="required">*</div></pre>
+    Application container id. Micro will load tpl here with or without animations. 
+    <hr>
+
+    <pre>tplDir: String <div class="required">*</div></pre>
+    Templates directory, for root use "/". 
+    <hr>
+
+    <pre>cache: Boolean</pre>
+    Enables tpl caching to local memory
+    <hr>
+
+
+    <pre>linkActiveCls: String </pre> 
+    Class that would be added to all active micro-link's 
+    Default is "micro-link-active""
+    <hr>
+
+
+    <pre id="enAnim">enterAnimation: String, </pre> 
+    Tpl load animation effect. Temporary available are <br>
+    <pre>fadeIn, fadeInDown, fadeInDownBig, fadeInLeft, fadeInLeftBig, <br>
+fadeInRight, fadeInRightBig, fadeInUp, fadeInUpBig</pre>
+    <hr>
+
+
+    <pre>animationDuration: Float</pre>
+    Tpl loading animation duration. Default is 0.6
+    <hr>
+
+    <pre>on: Object</pre>
+    We can listen for two events <code>beforerender, render</code>. Every event fires for each tpl load.
+    <pre>
+
+    on: {
+        beforerender: function(route, tpl){
+            // do something here before tpl render
+        },
+        render: function(route, tpl){
+            // do something here after tpl render
+        }
+    }
+    </pre>
+    Usefull option we need to execute code or log some actions on each tpl load.
+    <hr>
+
+    <br>
+    <h5 class="header" id="api">Routes</h5>
+
+    <pre>match: String <div class="required">*</div></pre>
+    Route match rule 
+    <hr>
+
+    <pre>title: String</pre>
+    Tab title
+    <hr>
+
+    <pre>tpl: Array</pre>
+    Here we provide array of template files with containers. Animations can also be provided.
+    Src or Tpl properties can be used, not both.
+    <hr>
+
+    <pre>src: String</pre>
+    Tpl source file. This option is valid only if need one page per route. Src or Tpl properties can be used, not both.
+    <hr>
+
+    <pre>enterAnimation: String</pre>
+    Exact like<a onclick="scrollNav('enAnim')"> global config</a>. Applied to this tpl only and overrides global <code>enterAnimation</code>.
+    <hr>
+
+    <pre>container: String</pre>
+    Exact like<a onclick="scrollNav('cont')"> global config</a>. Applied to this tpl only and overrides global <code>container</code>.
+    <hr>

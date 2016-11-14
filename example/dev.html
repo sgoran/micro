@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <title>Document</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+        <link rel="icon" href="http://localhost:8080/logo.ico">
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
@@ -12,10 +12,12 @@
         <header>
             <div class="navbar-fixed">
                 <nav>
+                    
                     <div class="nav-wrapper">
                         <a data-activates="navig"  class="button-collapse top-nav full ">
                             <i class="material-icons">menu</i>
                         </a>
+                        
                         <!-- main navigation -->
                         <ul class="right">
                             <li><a micro-link="/">Guide</a></li>
@@ -63,7 +65,7 @@
                     config: {
                         container: '#app',
                         tplDir: '/tpl',
-                        cache: true,
+                        cache: false,
                         linkActiveCls: 'nav-active', // default: micro-link-active 
                         enterAnimation: 'fadeIn', // available 
                         animationDuration: 0.6,
@@ -102,7 +104,7 @@
                             src: "examples.html"
                         },
                         {
-                            src: "guide-nav.html",
+                            src: "examples-nav.html",
                             enterAnimation: 'fadeInLeft',
                             container: '#subnav'
                         }]
@@ -113,7 +115,10 @@
                 $('.button-collapse').sideNav({'edge': 'left'});
 
             });
-                
+
+            function scrollNav(el){
+                document.getElementById(el).scrollIntoView(); scrollTo(0, document.body.scrollTop-84);
+            }    
         </script>
         
     </body>
