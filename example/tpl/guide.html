@@ -2,9 +2,9 @@
 <div class="col s10 container">
     <h4 class="header">Intro</h4>
     <p class=""> 
-        Micro is very simple 4KB client side single page application helper. It has no dependencies, so plain javascript that works across all browsers.
+        Micro is simple 4KB client side library. It has no dependencies, so plain javascript that works across all browsers.
         Main purpose is to turn any "hard-reload" website to Ajax driven <a href="https://en.wikipedia.org/wiki/Single-page_application" target="_BLANK">SPA</a>.
-        It fit's very fine with any client side libraries like bootstrap, materialize etc. But with dynamic sites too. It's environment agnostic and very suitable to ajaxify existing projects.<br><br> 
+        It fit's fine with any client side libraries like bootstrap, materialize etc. But with dynamic sites too. It's environment agnostic and very suitable to "ajaxify"" existing projects.<br><br> 
         
         Micro is combined from Router and Tpl modules.<br><br>
 
@@ -23,18 +23,69 @@
         smoth and user friendly single page website.
 
     </p>
-    <h4 class="header">Instalation</h4>
-   
-
-
-    <h4 class="header">What can I do with It?</h4>
-    <h4 class="header">How to use it?</h4>
-    <p>
+    <h4 class="header">Installation</h4>
     <pre>
-    $ npm install micro
-    $ cd micro
-    $ npm install
-    $ npm start
-    $ open http://localhost:8080
+    $ npm install micro-spa
     </pre>
+
+    <p>or by embedding directly on page</p>
+    <pre>
+    <span><</span>script src="https://unpkg.com/micro-spa@latest"<span>></span><span><</span>/script<span>></span>
+    </pre>
+    <p>you can also clone <code> https://github.com/sgoran/micro.git </code> to try out examples</p>
+   
+    
+    <h4 class="header">How to use it?</h4>
+    <p>You need two things</p>
+    <u>1. instruct your server to redirect all non-existing file and folder request to your index file</u>
+    <p><b>Apache example</b>
+        <pre>
+        <IfModule mod_rewrite.c>
+        RewriteEngine On
+        RewriteBase /
+        RewriteRule ^index\.php$ - [L]
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        RewriteRule . /index.php [L]
+        </IfModule>
+        </pre>
     </p>
+    <p><b>Ngnix example</b>
+        <pre>
+        location / {
+            try_files   $uri $uri/ /index.php?$args;
+        }
+        </pre>
+    </p>
+    <p><b>Express example</b>
+        <p>
+            You will probably write your own logic with few lines or user some
+            middleware. You can check my server <a href="https://github.com/sgoran/micro/blob/master/server.js" target"_BLANK">here</a> 
+            
+        </p>
+    </p>
+
+    <u>2. Create Micro object with few properties</u>
+    <p>Simples usage is</p>
+    <pre>
+        new Micro({
+            config: {
+                container: '#app',
+                tplDir: '/tpl'
+            },
+            router: [{
+                match: '/',
+                title: 'Home Page',
+                src: "home.html"
+            },{
+                match: '/example',
+                title: 'Example Page',
+                src: "examples.html"
+            }]
+        });
+    </pre>
+    <p>
+
+        Ror more check <a micro-link="/examples">Examples</a> page.
+    </p>
+    <p><br></p>

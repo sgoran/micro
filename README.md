@@ -1,15 +1,15 @@
 # Micro
 
-Micro client side router and template loading/mustache library.
+Micro client side spa library.
 
 - Works with pretty links via history API
 - Load templates with XHR in app container (not reloading page)
 - Template caching to local memory
-- Listene to <a> tag click with hub-link attribute
+- Listen to <a> tag click with micro-link attribute
 - Page loading animations
 - Basic mustache replacement for easier data forwarding
 - Before and afterrender events
-- Settings per page or globaly
+- Settings per page or globally
 
 ## Installing
 
