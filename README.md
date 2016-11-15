@@ -27,7 +27,7 @@ Micro client side spa library.
     $ cd micro
     $ npm install
     $ npm start
-    $ open http://localhost:8080
+    $ open http://localhost:8080/micro/
 
 ## API
 

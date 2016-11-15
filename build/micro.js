@@ -50,7 +50,8 @@
     Micro.prototype = {
 
        /**
-        * In cae other Micro global variable exists
+        * In case other Micro global variable exists
+        * check does it have this identifier
         */
        isMicro: true,
 

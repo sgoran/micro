@@ -5,9 +5,24 @@
       Simples example with one page and one route
     </p>
     <pre>
-
+      new Micro({
+            config: {
+                container: '#app',
+                tplDir: '/tpl'
+            },
+            router: [{
+                match: '/',
+                title: 'Home Page',
+                src: "home.html"
+            }]
+        });
     </pre>
+
+
+
+
     <h4 class="header">Routing</h4>
+    
     <h4 class="header">Templates</h4>
     <h4 class="header">Passing data to templates</h4>
     <h4 class="header">Global and per page settings</h4>

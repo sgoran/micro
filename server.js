@@ -10,15 +10,15 @@ app.get('/*',function(request, response, next) {
   if((/\.(gif|jpg|ico|jpeg|png|js|css|html)$/i).test(request.url))
     next();
   else
-    response.sendFile(__dirname+'/example/'+file+'.html');
+    response.sendFile(__dirname+'/examples/micro/'+file+'.html');
  });
 
 
-['/', '/src', '/build', '/example/img', '/example/tpl'].forEach(function(path){
+['/', '/src', '/examples', '/examples/micro/img', '/examples/micro/tpl'].forEach(function(path){
   app.use('/', express.static(__dirname + path));
 });
 
-['/', '/src', '/build', '/example/img', '/example/tpl'].forEach(function(path){
+['/', '/src', '/examples', '/examples/micro/img', '/examples/micro/tpl'].forEach(function(path){
   app.use('/:path', express.static(__dirname + path));
 });
 

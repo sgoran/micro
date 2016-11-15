@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <title>Document</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+        <link rel="icon" href="http://localhost:8080/logo.ico">
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
@@ -12,14 +12,17 @@
         <header>
             <div class="navbar-fixed">
                 <nav>
+                    
                     <div class="nav-wrapper">
-                        <a data-activates="navig"  class="button-collapse top-nav full "><i class="material-icons">menu</i></a>
+                        <a data-activates="navig"  class="button-collapse top-nav full ">
+                            <i class="material-icons">menu</i>
+                        </a>
+                        
                         <!-- main navigation -->
                         <ul class="right">
-                            <li><a micro-link="/">Guide</a></li>
-                            <li><a micro-link="/docks">Docs</a></li>
-                            <li><a micro-link="/examples">Examples</a></li>
-                            <li><a micro-link="/showcase">Showcase</a></li>
+                            <li><a micro-link="/micro/">Guide</a></li>
+                            <li><a micro-link="/micro/examples">Examples</a></li>
+                            <!--<li><a micro-link="/showcase">Showcase</a></li>-->
                         </ul>
                     </div>
                 </nav>    
@@ -46,7 +49,7 @@
             </div> 
         </main> 
 
-        <script src="../build/micro.min.js"></script>
+        <script src="https://unpkg.com/micro-spa@latest"></script>
         <script type="text/javascript" src="jquery_and_materialize.css.js"></script>
 
         <script type="text/javascript">
@@ -57,47 +60,25 @@
                 
                 micro = new Micro({
                     config: {
-                        enterAnimation: 'fadeIn',
-                        animationDuration: 0.6,
-                        tplDir: '/tpl',
-                        cache: true,
-                        linkActiveCls: 'nav-active', // default: micro-link-active 
                         container: '#app',
+                        tplDir: '/micro/tpl',
+                        cache: false,
+                        linkActiveCls: 'nav-active', // default: micro-link-active 
+                        enterAnimation: 'fadeIn', // available 
+                        animationDuration: 0.6,
                         on: {
-                            beforerender: function(page, params){
+                            beforerender: function(route, tpl){
+                                //console.log('before-render', route, tpl);
                                 // do something here before page render
                             },
-                            render: function(page, params){
+                            render: function(route, tpl){
+                                //console.log('render ', route, tpl);
                                 // do something here after page render
                             }
-                        }
+                        },
                     },
                     router: [{
-                        match: '/docks',
-                        title: 'Docks',
-                        data: {
-                            sample: 'Docks'
-                        },
-                        tpl: [{
-                            src: "docks.html",
-                            enterAnimation: 'fadeInRightBig'
-                        },
-                        {
-                            src: "docks-nav.html",
-                            container: '#subnav',
-                            enterAnimation: 'fadeInLeftBig'
-                        }]
-                    }, {
-                        match: '/examples',
-                        title: 'Examples',
-                        data: {
-                            sample: 'Examples'
-                        },
-                        src: "examples.html",
-                        enterAnimation: 'fadeInUpBig'
-                    },{
-                        match: '/',
-                        src: "guide.html",
+                        match: '/micro/',
                         title: 'Guide',
                         data: {
                             sample: 'Guide'
@@ -107,12 +88,23 @@
                         },
                         {
                             src: "guide-nav.html",
+                            enterAnimation: 'fadeInLeft',
                             container: '#subnav'
                         }]
                     },{
-                        match: '/showcase',
-                        src: "showcase.html",
-                        title: 'Showcase'
+                        match: '/micro/examples',
+                        title: 'Examples',
+                        data: {
+                            sample: 'Examples'
+                        },
+                        tpl: [{
+                            src: "examples.html"
+                        },
+                        {
+                            src: "examples-nav.html",
+                            enterAnimation: 'fadeInLeft',
+                            container: '#subnav'
+                        }]
                     }]
             
                 });
@@ -120,8 +112,13 @@
                 $('.button-collapse').sideNav({'edge': 'left'});
 
             });
-                
+
+            function scrollNav(el){
+                document.getElementById(el).scrollIntoView(); scrollTo(0, document.body.scrollTop-84);
+            }    
         </script>
         
     </body>
     </html>
+        
+      

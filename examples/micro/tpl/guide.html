@@ -39,7 +39,7 @@
             <li>- And more...</li>
         </ul>
 
-        We will see in the <a onclick="scrollNav('hello');">Hello World</a> section and on <a micro-link="/examples">examples</a> page how you can easily 
+        We will see in the <a onclick="scrollNav('hello');">Hello World</a> section and on <a micro-link="/micro/examples">examples</a> page how you can easily 
         split your appliacation into templates and map those to routes 
         in order to created smoth and user friendly single page website.
 
@@ -124,37 +124,37 @@
     <br>
     <h5 class="header" id="api">Config</h5>
 
-    <pre id="cont">container: String <div class="required">*</div></pre>
+    <pre id="cont"><b>container: String</b> <div class="required">*</div></pre>
     Application container id. Micro will load tpl here with or without animations. 
     <hr>
 
-    <pre>tplDir: String <div class="required">*</div></pre>
+    <pre><b>tplDir: String</b> <div class="required">*</div></pre>
     Templates directory, for root use "/". 
     <hr>
 
-    <pre>cache: Boolean</pre>
+    <pre><b>cache: Boolean</b></pre>
     Enables tpl caching to local memory
     <hr>
 
 
-    <pre>linkActiveCls: String </pre> 
+    <pre><b>linkActiveCls: String</b> </pre> 
     Class that would be added to all active micro-link's 
     Default is "micro-link-active""
     <hr>
 
 
-    <pre id="enAnim">enterAnimation: String, </pre> 
+    <pre id="enAnim"><b>enterAnimation: String</b> </pre> 
     Tpl load animation effect. Temporary available are <br>
     <pre>fadeIn, fadeInDown, fadeInDownBig, fadeInLeft, fadeInLeftBig, <br>
 fadeInRight, fadeInRightBig, fadeInUp, fadeInUpBig</pre>
     <hr>
 
 
-    <pre>animationDuration: Float</pre>
+    <pre><b>animationDuration: Float</b></pre>
     Tpl loading animation duration. Default is 0.6
     <hr>
 
-    <pre>on: Object</pre>
+    <pre><b>on: Object</b></pre>
     We can listen for two events <code>beforerender, render</code>. Every event fires for each tpl load.
     <pre>
 
@@ -173,27 +173,29 @@ fadeInRight, fadeInRightBig, fadeInUp, fadeInUpBig</pre>
     <br>
     <h5 class="header" id="api">Routes</h5>
 
-    <pre>match: String <div class="required">*</div></pre>
+    <pre><b>match: String</b> <div class="required">*</div></pre>
     Route match rule 
     <hr>
 
-    <pre>title: String</pre>
-    Tab title
-    <hr>
-
-    <pre>tpl: Array</pre>
+    <pre><b>tpl: Array</b> <div class="required">*</div></pre>
     Here we provide array of template files with containers. Animations can also be provided.
     Src or Tpl properties can be used, not both.
     <hr>
 
-    <pre>src: String</pre>
+    
+
+    <pre><b>src: String</b> <div class="required">*</div></pre>
     Tpl source file. This option is valid only if need one page per route. Src or Tpl properties can be used, not both.
     <hr>
 
-    <pre>enterAnimation: String</pre>
+    <pre><b>title: String</b></pre>
+    Tab title
+    <hr>
+
+    <pre><b>enterAnimation: String</b></pre>
     Exact like<a onclick="scrollNav('enAnim')"> global config</a>. Applied to this tpl only and overrides global <code>enterAnimation</code>.
     <hr>
 
-    <pre>container: String</pre>
+    <pre><b>container: String</b></pre>
     Exact like<a onclick="scrollNav('cont')"> global config</a>. Applied to this tpl only and overrides global <code>container</code>.
     <hr>
