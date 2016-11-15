@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        
+    </div>
+    <script src="https://unpkg.com/micro-spa@latest"></script>
+    <script>
+        new Micro({
+            config: {
+                container: '#app',
+                tplDir: '/'
+            },
+            router: [{
+                match: '/',
+                title: 'Home Page',
+                src: "home.html"
+            }]
+        });
+
+    </script>
+</body>
+</html>
