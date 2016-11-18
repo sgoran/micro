@@ -2,13 +2,13 @@
 <div class="col s10 container">
     <h4 class="header" id="intro">Intro</h4>
     <p class=""> 
-        Micro is simple, 4KB client side library. It's writen in plain javascript with no dependencies.
+        Micro is simple, 4KB client side library, writen in plain javascript with no dependencies. <br>
         Main purpose is to turn any "hard-reload" website to Ajax driven
          <a href="https://en.wikipedia.org/wiki/Single-page_application" target="_BLANK">SPA</a> without 
          leaarning React, Angular, Polymer, Vue or similar.
-        <br>Micro combines very fine with any client side libraries like bootstrap, materialize etc, and with dynamic sites too.
-        <br> 
-        It's environment agnostic and very suitable to "ajaxify" existing projects within several minutes.<br><br> 
+        <br>It combines very fine with any client side libraries like bootstrap, materialize etc, and with dynamic sites too.
+         
+        <br><br> 
         
         Library is a combination of internal Router and Tpl modules.<br><br>
 
@@ -39,9 +39,7 @@
             <li>- And more...</li>
         </ul>
 
-        We will see in the <a onclick="scrollNav('hello');">Hello World</a> section and on <a micro-link="/micro/examples">examples</a> page how you can easily 
-        split your appliacation into templates and map those to routes 
-        in order to created smoth and user friendly single page website.
+        We will see in <a micro-link="/micro/examples">examples</a>  how easy is to created smoth and user friendly single page website.
 
     </p>
 
@@ -113,13 +111,13 @@
     <br>
     <h4 class="header" id="api">API</h4>
 
-    Settings are provided via two objects. <br>
+    Settings are provided via two objects. (Settings marked with <span style="color: green;">*</span> are required options)<br>
 
     <p><b>config: {}</b> - Here we add some global options like container ID, animations and similar.</p>
-    <p><b>routes: []</b> - We add routes as objects withing this array. We can load separate tpl files to separate 
+    <p><b>routes: []</b> - We add routes as Array of Objects. We can load separate tpl files to separate 
     containers within one route match.</p>
 
-    <p>Settings marked with <span style="color: green;">*</span> are required options.</p>
+    
 
     <br>
     <h5 class="header" id="api">Config</h5>
@@ -167,7 +165,7 @@ fadeInRight, fadeInRightBig, fadeInUp, fadeInUpBig</pre>
         }
     }
     </pre>
-    Usefull option we need to execute code or log some actions on each tpl load.
+    Usefull when we need to execute some code on each tpl load.
     <hr>
 
     <br>

@@ -10,15 +10,15 @@ app.get('/*',function(request, response, next) {
   if((/\.(gif|jpg|ico|jpeg|png|js|css|html)$/i).test(request.url))
     next();
   else
-    response.sendFile(__dirname+'/examples/micro/'+file+'.html');
+    response.sendFile(__dirname+'/'+file+'.html');
  });
 
 
-['/', '/src', '/examples'].forEach(function(path){
+['/', '/src', '/img', , '/js', '/vendor'].forEach(function(path){
   app.use('/', express.static(__dirname + path));
 });
 
-['/', '/src', '/examples'].forEach(function(path){
+['/', '/src', '/img', , '/js', '/vendor'].forEach(function(path){
   app.use('/:path', express.static(__dirname + path));
 });
 

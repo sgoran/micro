@@ -1,15 +1,4 @@
-# Micro
-
-Micro client side spa library.
-
-- Works with pretty links via history API
-- Load templates with XHR in app container (not reloading page)
-- Template caching to local memory
-- Listen to <a> tag click with micro-link attribute
-- Page loading animations
-- Basic mustache replacement for easier data forwarding
-- Before and afterrender events
-- Settings per page or globally
+Micro client side spa library: http://lessgeneric.com/micro/
 
 ## Installing
 
@@ -29,13 +18,14 @@ Micro client side spa library.
     $ npm start
     $ open http://localhost:8080/micro/
 
-## API
+## Simple API
 
 ```javascript
   new Micro({
             config: {
                 container: '#app',
-                tplDir: '/tpl'
+                tplDir: '/tpl',
+                enterAnimation: 'fadeIn'
             },
             router: [{
                 match: '/',
