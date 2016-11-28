@@ -20,8 +20,8 @@
                         
                         <!-- main navigation -->
                         <ul class="right">
-                            <li><a micro-link="/micro/">Guide</a></li>
-                            <li><a micro-link="/micro/examples">Examples</a></li>
+                            <li><a micro-link="/">Guide</a></li>
+                            <li><a micro-link="/examples">Examples</a></li>
                             <!--<li><a micro-link="/showcase">Showcase</a></li>-->
                         </ul>
                     </div>
@@ -61,7 +61,7 @@
                 micro = new Micro({
                     config: {
                         container: '#app',
-                        tplDir: '/micro/tpl',
+                        tplDir: '/tpl',
                         cache: false,
                         linkActiveCls: 'nav-active', // default: micro-link-active 
                         enterAnimation: 'fadeIn', // available 
@@ -78,7 +78,7 @@
                         },
                     },
                     router: [{
-                        match: '/micro/',
+                        match: '/',
                         title: 'Guide',
                         data: {
                             sample: 'Guide'
@@ -92,7 +92,7 @@
                             container: '#subnav'
                         }]
                     },{
-                        match: '/micro/examples',
+                        match: '/examples',
                         title: 'Examples',
                         data: {
                             sample: 'Examples'
