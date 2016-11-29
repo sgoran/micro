@@ -14,11 +14,11 @@ app.get('/*',function(request, response, next) {
  });
 
 
-['/', '/src', '/examples'].forEach(function(path){
+['/', '/src', '/examples/micro'].forEach(function(path){
   app.use('/', express.static(__dirname + path));
 });
 
-['/', '/src', '/examples'].forEach(function(path){
+['/', '/src', '/examples/micro'].forEach(function(path){
   app.use('/:path', express.static(__dirname + path));
 });
 
