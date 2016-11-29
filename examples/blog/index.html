@@ -144,12 +144,12 @@
         new Micro({
             config: {
                 container: '#app',
-                tplDir: '/blog/tpl/',
+                tplDir: '/tpl',
                 enterAnimation: 'fadeIn',
                 animationDuration: 1.3
             },
             router: [{
-                match: '/blog/',
+                match: '/',
                 title: 'Home',
                 src: "home.html",
                 enterAnimation: 'fadeInDownBig',
@@ -159,7 +159,7 @@
                     headDesc: 'A Clean Blog Theme by Start Bootstrap'
                 }
             },{
-                match: '/blog/about',
+                match: '/about',
                 title: 'About',
                 src: "about.html",
                  data: {
@@ -168,7 +168,7 @@
                     headDesc: 'This is what I do.'
                 }
             },{
-                match: '/blog/post',
+                match: '/post',
                 title: 'Post',
                 src: "post.html",
                 data: {
@@ -177,7 +177,7 @@
                     postH2: 'Problems look mighty small from 150 miles up'
                 }
             },{
-                match: '/blog/contact',
+                match: '/contact',
                 title: 'Contact US',
                 src: "contact.html",
                 data: {
