@@ -6,6 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" href="img/logo.ico">
         <link rel="stylesheet" href="style.css">
+        <!-- Place this tag in your head or just before your close body tag. -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
     </head>
     <body>
         
@@ -20,6 +22,15 @@
                         
                         <!-- main navigation -->
                         <ul class="right">
+                            <li style="padding: 10px;">
+                                <a class="github-button"
+                                    href="https://github.com/sgoran/micro" 
+                                    data-style="mega" 
+                                    data-count-href="/sgoran/micro/stargazers" 
+                                    data-count-api="/repos/sgoran/micro#stargazers_count" 
+                                    data-count-aria-label="# stargazers on GitHub" 
+                                    aria-label="Star sgoran/micro on GitHub"></a>
+                            </li>
                             <li><a micro-link="/">Guide</a></li>
                             <li><a micro-link="/examples">Examples</a></li>
                             <!--<li><a micro-link="/showcase">Showcase</a></li>-->
@@ -103,9 +114,12 @@
 
             });
 
-            function scrollNav(el){
-                document.getElementById(el).scrollIntoView(); scrollTo(0, document.body.scrollTop-84);
-            }    
+            function scrollNav(el){console.log(document.getElementById(el))
+                document.getElementById(el).scrollIntoView();
+                var scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0; 
+                scrollTo(0, scroll-84);
+                return false;
+            }  
         </script>
         
     </body>

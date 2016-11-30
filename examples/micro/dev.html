@@ -6,6 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" href="logo.ico">
         <link rel="stylesheet" href="style.css">
+        <!-- Place this tag in your head or just before your close body tag. -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
     </head>
     <body>
         
@@ -113,12 +115,17 @@
                 });
 
                 $('.button-collapse').sideNav({'edge': 'left'});
-
+                
             });
 
-            function scrollNav(el){
-                document.getElementById(el).scrollIntoView(); scrollTo(0, document.body.scrollTop-84);
-            }    
+            function scrollNav(el){console.log(document.getElementById(el))
+                document.getElementById(el).scrollIntoView();
+                var scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0; 
+                scrollTo(0, scroll-84);
+                return false;
+            } 
+
+               
         </script>
         
     </body>
