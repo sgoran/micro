@@ -1,4 +1,4 @@
-Micro client side spa library: http://lessgeneric.com/micro/
+Micro client side spa library: http://micro-js.com
 
 ## Installing
 
@@ -13,10 +13,11 @@ Micro client side spa library: http://lessgeneric.com/micro/
   To run examples do the following to install dev dependencies and run the example express server:
 
     $ git clone https://github.com/sgoran/micro.git
-    $ cd micro
+    $ cd micro/examples/blog
     $ npm install
+    $ cd micro/examples/blog
     $ npm start
-    $ open http://localhost:8080/micro/
+    $ open http://localhost:8080
 
 ## Simple API
 

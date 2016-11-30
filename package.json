@@ -1,6 +1,6 @@
 {
   "name": "micro-spa",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Client side micro router and tpl loader/parser",
   "main": "build/micro.min.js",
   "devDependencies": {
