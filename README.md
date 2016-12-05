@@ -1,5 +1,5 @@
 Micro client side Single Page Library: http://micro-js.com
-Goal to is to use it fast to improve UX and fragment yor application without need to learn Angular, React etc.
+Goal is to use it fast to improve UX and fragment yor application without need to learn Angular, React etc.
 
 ## Installing
 
